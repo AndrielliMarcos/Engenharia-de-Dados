@@ -70,6 +70,11 @@ display(df)
 
 # COMMAND ----------
 
+# DBTITLE 1,Exemplo de leitura do CSV usando um schema criado via StructType
+# df = spark.read.option("delimiter", ";").option("header", False).schema(SCHEMA).csv(path_file, encoding="ISO-8859-1")
+
+# COMMAND ----------
+
 # DBTITLE 1,Dataframe com as colunas necessárias
 df = df.select(
     col("Estado"),
