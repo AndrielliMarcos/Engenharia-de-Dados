@@ -63,15 +63,10 @@ df = spark.read.csv(
     header=True,
     sep=';',
     inferSchema=True,
-    encoding='iso-8859-1'
+    #encoding='iso-8859-1'
 )
 
 display(df)
-
-# COMMAND ----------
-
-# DBTITLE 1,Exemplo de leitura do CSV usando um schema criado via StructType
-# df = spark.read.option("delimiter", ";").option("header", False).schema(SCHEMA).csv(path_file, encoding="ISO-8859-1")
 
 # COMMAND ----------
 
@@ -100,3 +95,11 @@ df.write\
       .mode('overwrite')\
       .format('parquet')\
       .save(path_file_destino)
+
+# COMMAND ----------
+
+pip install chardet
+
+# COMMAND ----------
+
+path_file = '/mnt/transient/Lista_Estados_Brasil_Versao_CSV.csv'
