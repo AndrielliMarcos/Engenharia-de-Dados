@@ -3,14 +3,23 @@
 
 # COMMAND ----------
 
+# MAGIC %run ./Classroom-Setup-99-common
+
+# COMMAND ----------
+
 lesson_config = LessonConfig(name = None,
-                             create_schema = False,
+                             create_schema = True,
                              create_catalog = False,
                              requires_uc = False,
-                             installing_datasets = False,
+                             installing_datasets = True,
                              enable_streaming_support = False)
 
 DA = DBAcademyHelper(course_config=course_config,
                      lesson_config=lesson_config)
-DA.reset_learning_environment()
+DA.reset_lesson()
+DA.init()
+
+_setup_tables()
+
+DA.conclude_setup()                      # Conclude setup by advertising environmental changes
 
