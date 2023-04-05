@@ -41,7 +41,7 @@ SELECT * FROM csv.`${DA.paths.sales_csv}`
 -- MAGIC ###Registrando tabelas em dados externos com opções de leitura
 -- MAGIC Embora o Spark extraia algumas fontes de dados autodescritivas com eficiência usando as configurações padrão, muitos formatos irão exigir declaração do schema ou outras opções.
 -- MAGIC 
--- MAGIC Embora existm muitas <a href="https://docs.databricks.com/spark/latest/spark-sql/language-manual/sql-ref-syntax-ddl-create-table-using.html" target="_blank">configurações adicionais</a>, você pode definir enquanto cria as tabelas em fontes externas, a sintaxe a seguir mostra os requisitos essenciais para extrair dados da maoria dos formatos.
+-- MAGIC Embora existam muitas <a href="https://docs.databricks.com/spark/latest/spark-sql/language-manual/sql-ref-syntax-ddl-create-table-using.html" target="_blank">configurações adicionais</a>, você pode definir enquanto cria as tabelas em fontes externas. A sintaxe a seguir mostra os requisitos essenciais para extrair dados da maoria dos formatos.
 -- MAGIC 
 -- MAGIC <strong><code>
 -- MAGIC CREATE TABLE table_identifier (col_name1 col_type1, ...)<br/>
@@ -52,12 +52,12 @@ SELECT * FROM csv.`${DA.paths.sales_csv}`
 -- MAGIC 
 -- MAGIC Observe que as opções são passadas com chaves como textos sem aspas e valores entre aspas. Spark suporta muitas <a href="https://docs.databricks.com/data/data-sources/index.html" target="_blank">fontes de dados</a> com opções personalizadas e sistemas adicionais podem ter suporte não oficial por meio de <a href="https://docs.databricks.com/libraries/index.html" target="_blank">bibliotecas externas</a>
 -- MAGIC 
--- MAGIC **Observação:** Dependenso das configurações do seu workspace, você pode precisar da assistencia do administrador para carregar bibliotecas e configurar os requisitos de segurança para algumas fontes de dados.
+-- MAGIC **Observação:** Dependendo das configurações do seu workspace, você pode precisar da assistencia do administrador para carregar bibliotecas e configurar os requisitos de segurança para algumas fontes de dados.
 
 -- COMMAND ----------
 
 -- MAGIC %md
--- MAGIC A célula abaixo demosntra o uso do Spark SQL DDL para criar uma tabela em uma fonte CSV externa, especificando:
+-- MAGIC A célula abaixo demonstra o uso do Spark SQL DDL para criar uma tabela em uma fonte CSV externa, especificando:
 -- MAGIC 1. O nome e o tipo da coluna
 -- MAGIC 1. O formato do arquivo
 -- MAGIC 1. O delimitador usado para separar os campos
@@ -100,7 +100,7 @@ SELECT COUNT(*) FROM sales_csv
 -- COMMAND ----------
 
 -- MAGIC %md
--- MAGIC Todos os metadados e options passadas durante a declaração da tabela serão persistidos no metastore, garantindo que os dados no local irão sempre ser lidos con estas options.
+-- MAGIC Todos os metadados e options passadas durante a declaração da tabela serão persistidos no metastore, garantindo que os dados no local irão sempre ser lidos com estas options.
 -- MAGIC 
 -- MAGIC **Observação:** quando trabalhamos com CSVs como fonte de dados, é importante garantir que a ordem das colunas não mudem se arquivos de dados adicionais forem adicionados ao diretório de origem. O Spark carregará colunas e aplicará nomes de colunas e tipos de dados especificada durante a declaração da tabela.
 -- MAGIC 
@@ -201,7 +201,7 @@ OPTIONS (
 -- COMMAND ----------
 
 -- MAGIC %md
--- MAGIC Agora nós podemos consultar este tabela como se fosse definida localmente.
+-- MAGIC Agora nós podemos consultar esta tabela como se fosse definida localmente.
 
 -- COMMAND ----------
 
@@ -230,7 +230,7 @@ DESCRIBE EXTENDED users_jdbc
 -- COMMAND ----------
 
 -- MAGIC %md
--- MAGIC Observe que alguns sistemas SQL, como data warehouses, terão drivers personalizados. O Spark interagirá com vários bancos de dados externos de maneira diferente, mas as duas abordagens básicas podem ser resumidas como:
+-- MAGIC Observe que alguns sistemas SQL, como data warehouses, terão drivers personalizados. O Spark irá interagir com vários bancos de dados externos de maneira diferente, mas as duas abordagens básicas podem ser resumidas como:
 -- MAGIC 1. Movendo toda tabela de origem para Databricks e, em seguida, executando a lógica no cluster atualmente ativo
 -- MAGIC 1. Levando a consulta para o banco de dados SQL externo e transferindo apenas os resultados de volta para o Databricks
 -- MAGIC 

@@ -7,7 +7,7 @@
 -- MAGIC 
 -- MAGIC ###Objetivos:
 -- MAGIC - Usar Spark SQL para consultar arquivos de dados diretamente
--- MAGIC - Visualizações de camada e CTEs para facilitar a referência de arquivos de dados
+-- MAGIC - Visualizações de camada (views) e CTEs para facilitar a referência de arquivos de dados
 -- MAGIC - Aproveitar métodos **`text`** e **`binaryFile`** para revisar o conteúdo dos arquivos brutos
 
 -- COMMAND ----------
@@ -24,7 +24,7 @@
 
 -- MAGIC %md
 -- MAGIC ###Visão geral dos dados
--- MAGIC Neste exmplo, nós iremos trabalhar com uma amostra de dados KAFKA brutos gravados como arquivos JSON.
+-- MAGIC Neste exemplo, nós iremos trabalhar com uma amostra de dados KAFKA brutos gravados como arquivos JSON.
 -- MAGIC 
 -- MAGIC Cada arquivo contém todos os registros consumidos durante um intervalo de 5 segundos.
 -- MAGIC | field | type | description |
@@ -52,9 +52,9 @@
 -- COMMAND ----------
 
 -- MAGIC %md
--- MAGIC Aqui, nós estaremos usando caminhos de arquivo relativos aos dados que foram gravados na raiz do DBFS.
+-- MAGIC Aqui, nós usaremos caminhos de arquivo relativos aos dados que foram gravados na raiz do DBFS.
 -- MAGIC 
--- MAGIC A maioria dos workflows irão requerer usuários para acessa os dados do local externo de armazenamento na nuvem.
+-- MAGIC A maioria dos workflows irão requerer usuários para acessar os dados do local externo de armazenamento na nuvem.
 -- MAGIC 
 -- MAGIC Na maioria das empresas, um administrador de workspace será responsável por configurar o acesso para esses locais de armazenamento.
 
@@ -125,7 +125,7 @@ SELECT * FROM events_temp_view
 -- MAGIC ###Aplicar CTEs para referência dentro de uma consulta
 -- MAGIC As CTEs trazem uma referência de curta duração para os resultados de uma consulta.
 -- MAGIC 
--- MAGIC Uma CTE só consegue trazer um resultado estado tudo dentro de uma mesma célula (consulta sendo planejada e executada). Se tentar consultar uma CTE em outra célula, a consulta retornará um erro
+-- MAGIC Uma CTE só consegue trazer um resultado estando tudo dentro de uma mesma célula (consulta sendo planejada e executada). Se tentar consultar uma CTE em outra célula, a consulta retornará um erro
 
 -- COMMAND ----------
 
@@ -141,7 +141,7 @@ SELECT COUNT(*) FROM cte_json
 -- COMMAND ----------
 
 -- MAGIC %md
--- MAGIC ###Extrair arquivos de texto como stringd brutas
+-- MAGIC ###Extrair arquivos de texto como string brutas
 -- MAGIC Quando trabalhamos com arquivos de texto (JSON, CSV, TSV e TXT), podemos usar o formato **`text`** para carregar cada linha dos arquivos como uma linha com uma coluna de string chamada **`value`**. Isto pode ser útil quando as fontes de dados são propensas a corrupção e funções personalizadas de análise de texto serão usadas para extrair valores de campos de texto.
 
 -- COMMAND ----------
