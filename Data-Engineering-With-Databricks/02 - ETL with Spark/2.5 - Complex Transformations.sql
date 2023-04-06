@@ -20,7 +20,7 @@
 
 -- MAGIC %md
 -- MAGIC ### Visão geral dos dados
--- MAGIC A tabela **`events_raw`** foi registrada em relação aos dados que representam uma carga Kafka. Na maioria dos casos, dados kafka sarão valores JSON codificados em binário.
+-- MAGIC A tabela **`events_raw`** foi registrada em relação aos dados que representam uma carga Kafka. Na maioria dos casos, dados kafka serão valores JSON codificados em binário.
 -- MAGIC 
 -- MAGIC Vamos converter a **`key`** e **`value`** como strings para visualizar esses valores em um formato legível por humanos.
 
@@ -73,7 +73,7 @@ SELECT * FROM events_strings WHERE value:event_name = "finalize" ORDER BY key LI
 -- MAGIC - **`schema_of_json()`** retorna o schema obtido de um exemplo JSON string
 -- MAGIC - **`from_json()`** analisa uma coluna contendo uma string JSON em um tipo struct usando o esquema especificado.
 -- MAGIC 
--- MAGIC Deposi de desempacotar a string JSON para um tipo struct, vamos desempacotar e nivelar todos os campos struct em colunas.
+-- MAGIC Depois de desempacotar a string JSON para um tipo struct, vamos desempacotar e nivelar todos os campos struct em colunas.
 -- MAGIC - **`*`: `col_name.*`** extrai os subcampos de **`col_name`** em sua próprias colunas.
 
 -- COMMAND ----------
@@ -132,7 +132,7 @@ SELECT * FROM exploded_events WHERE size(items) > 2
 
 -- MAGIC %md
 -- MAGIC O código a seguir combina transformações de array para criar uma tabela que mostra a única coleção de ações e os itens no carrinho de um usuário.
--- MAGIC - **`collect_set()`** coleta valores únicos por campo, incluindo campos dentri de arrays
+-- MAGIC - **`collect_set()`** coleta valores únicos por campo, incluindo campos dentro de arrays
 -- MAGIC - **`flatten()`** combina vários arrays dentro de um único array
 -- MAGIC - **`array_distinct()`** remove elementos duplicados de um array
 

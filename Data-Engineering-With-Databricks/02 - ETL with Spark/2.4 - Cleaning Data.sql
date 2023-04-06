@@ -1,6 +1,6 @@
 -- Databricks notebook source
 -- MAGIC %md
--- MAGIC # Dados de Limpeza
+-- MAGIC # Limpeza dos dados
 -- MAGIC À medida que nós inspecionamos e limpamos nossos dados, nós precisaremos construir várias expressões de coluna e consultas para expressar transformações a serem aplicadas em nosso conjunto de dados.
 -- MAGIC 
 -- MAGIC Expressões de coluna são construídas de colunas existentes, operadores e funções integradas existentes. Elas podem ser usadas em instruções **SELECT** para expressar transformações que criam novas colunas.
@@ -73,7 +73,7 @@ SELECT count(*) FROM users_dirty WHERE email IS NULL;
 
 -- MAGIC %md
 -- MAGIC ### Linhas Duplicadas
--- MAGIC Podemos usar o **`DISTINCT *`** para remover registros duplicados verdadeiros em que linhas inteiras contêm os mesmos valores. 
+-- MAGIC Podemos usar o **`DISTINCT *`** para remover registros duplicados verdadeiros em que linhas inteiras  que contêm os mesmos valores. 
 
 -- COMMAND ----------
 

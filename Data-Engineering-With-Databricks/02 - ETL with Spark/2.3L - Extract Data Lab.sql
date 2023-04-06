@@ -34,7 +34,7 @@
 -- MAGIC ###Extrair eventos brutos de arquivos JSON
 -- MAGIC Para carregar este dado para dentro do Delta apropriadamente, nós primeiro precisamos extrair o dado JSON usando o schema correto.
 -- MAGIC 
--- MAGIC Crie uma tabela externa de arquivo JSON lacalizada na path a seguir. O nome desta tabela é **`events_json`** e declare o schema a seguir.
+-- MAGIC Crie uma tabela externa de arquivo JSON localizada na path a seguir. O nome desta tabela é **`events_json`** e declare o schema a seguir.
 
 -- COMMAND ----------
 
