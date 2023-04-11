@@ -156,7 +156,7 @@ DESCRIBE DETAIL students
 -- COMMAND ----------
 
 -- MAGIC %md
--- MAGIC A coluna **`add`** contem uma lkista de todos os novos arquivos escritos em nossa tabela. A coluna **`remove`** indica aqueles arquivos que não devem mais ser incluídos em nossa tabela.
+-- MAGIC A coluna **`add`** contem uma lista de todos os novos arquivos escritos em nossa tabela. A coluna **`remove`** indica aqueles arquivos que não devem mais ser incluídos em nossa tabela.
 -- MAGIC 
 -- MAGIC Quando consultamos a tabela Delta Lake, o mecanismo de consulta usa logs de transação para resolver todos os arquivos válidos na versão atual e ignora todos os outros arquivos de dados.
 

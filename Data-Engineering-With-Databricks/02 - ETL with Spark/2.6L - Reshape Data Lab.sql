@@ -31,7 +31,7 @@
 -- MAGIC ###Tabela pivot events para obter a contagem de eventos para cada usuário
 -- MAGIC Vamos começar criando uma tabela pivot a partir da tabela **`events`** para obter contagens para cada **`event_name`**.
 -- MAGIC 
--- MAGIC Queremos agregar o número de vezes que cada usuário executou um evento específico, especificado na coluna **`event_name`**. Para fazer isso, agrupe por **`user_id`** e faça o pivot em **`event_name`** pata fornecer a contagem de todos os tipos de eventos na coluna, resultando no schema abaixo. Observe que **`user_id`** está renomeado para **`user`**.
+-- MAGIC Queremos agregar o número de vezes que cada usuário executou um evento específico, especificado na coluna **`event_name`**. Para fazer isso, agrupe por **`user_id`** e faça o pivot em **`event_name`** para fornecer a contagem de todos os tipos de eventos na coluna, resultando no schema abaixo. Observe que **`user_id`** está renomeado para **`user`**.
 -- MAGIC 
 -- MAGIC 
 -- MAGIC | field | type | 

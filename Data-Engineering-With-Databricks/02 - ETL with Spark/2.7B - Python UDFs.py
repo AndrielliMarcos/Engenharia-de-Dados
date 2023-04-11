@@ -29,7 +29,7 @@ first_letter_function("annagray@kaufman.com")
 
 # MAGIC %md
 # MAGIC ###Criar e Aplicar uma UDF
-# MAGIC Registrar uma function como uma UDF. Isso serializa a função e a envia ais executores para poder transformar os registros do Dataframe.
+# MAGIC Registrar uma function como uma UDF. Isso serializa a função e a envia aos executores para poder transformar os registros do Dataframe.
 
 # COMMAND ----------
 

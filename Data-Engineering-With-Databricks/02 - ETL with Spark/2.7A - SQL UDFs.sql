@@ -14,7 +14,7 @@
 
 -- MAGIC %md
 -- MAGIC ###UDFs
--- MAGIC As funções definidas pelo usuário (UDFs) em Spark SQL permitem que você registre uma lógica SQL personalizada como functions em um banco de dados, tornando este método reutilizável em qualquer lugar onde o SQL possa ser executado no Databricks. Essa funções são registradas nativamente no SQL e matem todas as otimizações do Spark ao aplicar a lógica personalizada a grandes conjuntos de dados.
+-- MAGIC As funções definidas pelo usuário (UDFs) em Spark SQL permitem que você registre uma lógica SQL personalizada como functions em um banco de dados, tornando este método reutilizável em qualquer lugar onde o SQL possa ser executado no Databricks. Essas funções são registradas nativamente no SQL e matem todas as otimizações do Spark ao aplicar a lógica personalizada a grandes conjuntos de dados.
 -- MAGIC 
 -- MAGIC No mínimo, a criação de um SQL UDF requer um nome para a função, parâmetros opcionais, o tipo a ser retornado e alguma lógica personalizada.
 -- MAGIC 
@@ -31,7 +31,7 @@ SELECT *, sale_announcement(name, price) AS message FROM item_lookup
 -- COMMAND ----------
 
 -- MAGIC %md
--- MAGIC Observe que esta função é aplicada para todos os valores da coluna de maneira paralela no mecanismo de processamento do Spark. SQL UDFs são uma forma efetiva de definir uma lógica personalizada qie é otimizada para execução em Databricks.
+-- MAGIC Observe que esta função é aplicada para todos os valores da coluna de maneira paralela no mecanismo de processamento do Spark. SQL UDFs são uma forma efetiva de definir uma lógica personalizada que é otimizada para execução em Databricks.
 
 -- COMMAND ----------
 
@@ -56,8 +56,8 @@ DESCRIBE FUNCTION EXTENDED sale_announcement
 -- COMMAND ----------
 
 -- MAGIC %md
--- MAGIC ###Funções de fluxo de cotrole simples
--- MAGIC Combinando SQL UDFs com fluxo de controle na forma de cláusulas **`CASE`** / **`WHEN`** fornece execução otimizada para fluxos de controle em cargas de trabalho SQL. O padrão SQL de construção sintática **`CASE`** / **`WHEN`** permite a avaliação de várias declarações condicionais cpm resultados alternativos com base no conteúdo da tabela.
+-- MAGIC ###Funções de fluxo de controle simples
+-- MAGIC Combinando SQL UDFs com fluxo de controle na forma de cláusulas **`CASE`** / **`WHEN`** fornece execução otimizada para fluxos de controle em cargas de trabalho SQL. O padrão SQL de construção sintática **`CASE`** / **`WHEN`** permite a avaliação de várias declarações condicionais com resultados alternativos com base no conteúdo da tabela.
 -- MAGIC 
 -- MAGIC Aqui, demonstramos o envolvimento dessa lógica de fluxo de controle em uma função que será reutilizável em qualquer lugar em que possamos executar o SQL.
 
