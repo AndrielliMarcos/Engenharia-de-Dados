@@ -1,7 +1,7 @@
 -- Databricks notebook source
 -- MAGIC %md
 -- MAGIC #Versionar e Otimizar Tabelas Delta
--- MAGIC Vamos mostrar alguns recirsos exclusivos do Delta Lake.
+-- MAGIC Vamos mostrar alguns recursos exclusivos do Delta Lake.
 -- MAGIC 
 -- MAGIC Observe que embora algumas das palavras chaves usadas aqui não são parte do padrão ANSI SQL, todas as operações Delta Lake podem ser executadas no Databricks usando SQL.
 -- MAGIC 
@@ -126,7 +126,7 @@ DESCRIBE DETAIL students
 -- COMMAND ----------
 
 -- MAGIC %md
--- MAGIC Cada transação resulta em um novo arquivo JSON sendo gravado no log de transações do Delta Lake. Aqui, podemos ver que há 8 transoçãoes totais nesta tabela.
+-- MAGIC Cada transação resulta em um novo arquivo JSON sendo gravado no log de transações do Delta Lake. Aqui, podemos ver que há 8 transaçãoes totais nesta tabela.
 
 -- COMMAND ----------
 
@@ -226,7 +226,7 @@ DELETE FROM students
 -- COMMAND ----------
 
 -- MAGIC %md
--- MAGIC Observe que quandp vemos um **`-1`** como número de linhas afetadas pelo delete, isto significa que um diretório inteiro de dados foi removido.
+-- MAGIC Observe que quando vemos um **`-1`** como número de linhas afetadas pelo delete, isto significa que um diretório inteiro de dados foi removido.
 
 -- COMMAND ----------
 
@@ -265,7 +265,7 @@ RESTORE TABLE students TO VERSION AS OF 8
 -- COMMAND ----------
 
 -- MAGIC %md
--- MAGIC Por padrão, o **`VACUUM`** irá impedir que você exclua arquivos com menos de 7 dias, apenas para garantir que nenhuma operação de execução longa ainda faça referência a qualquer um dos arquivos a serem exclupidos. Se você executar **`VACUUM`** em uma tabela Delta, perderá a capacidade de voltar no tempo para uma versão anterior ao período de retenção de dados especificado. Em nossas demonstrações, você pode ver Databricks executando código que especifica uma retenção ) horas. Isso é simplesmente para demonstrar o recurso e normalmente não é feito na produção.
+-- MAGIC Por padrão, o **`VACUUM`** irá impedir que você exclua arquivos com menos de 7 dias, apenas para garantir que nenhuma operação de execução longa ainda faça referência a qualquer um dos arquivos a serem excluídos. Se você executar **`VACUUM`** em uma tabela Delta, perderá a capacidade de voltar no tempo para uma versão anterior ao período de retenção de dados especificado. Em nossas demonstrações, você pode ver Databricks executando código que especifica uma retenção 0 horas. Isso é simplesmente para demonstrar o recurso e normalmente não é feito na produção.
 -- MAGIC 
 -- MAGIC Na célula a seguir:
 -- MAGIC 1. Desativa uma verificação para evitar a exclusão prematura de arquivos de dados

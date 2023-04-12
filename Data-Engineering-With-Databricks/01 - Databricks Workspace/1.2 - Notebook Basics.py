@@ -157,7 +157,7 @@ dbutils.fs.ls(path)
 # MAGIC 
 # MAGIC O comando **`display()`** tem algumas capacidades e limitações:
 # MAGIC * Pré visualização dos resultados é limitado a 1000 registros;
-# MAGIC * Fonece botão para download dos dados como CSV
+# MAGIC * Fornece botão para download dos dados como CSV
 
 # COMMAND ----------
 

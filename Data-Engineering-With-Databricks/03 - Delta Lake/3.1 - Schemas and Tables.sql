@@ -4,7 +4,7 @@
 -- MAGIC 
 -- MAGIC ###Objetivos
 -- MAGIC - Usar Spark SQL DDL para definir schemas e tabelas
--- MAGIC - Descrver como a palavra chave **`LOCATION`** impacta o diretósio padrão de armazenamento
+-- MAGIC - Descrver como a palavra chave **`LOCATION`** impacta o diretório padrão de armazenamento
 -- MAGIC 
 -- MAGIC ###Recursos
 -- MAGIC * <a href="https://docs.databricks.com/user-guide/tables.html" target="_blank">Schemas and Tables - Databricks Docs</a>
@@ -78,7 +78,7 @@ DESCRIBE DETAIL managed_table_in_db_with_default_location;
 -- COMMAND ----------
 
 -- MAGIC %md
--- MAGIC Por padrão, tabelas gerencidas em um sxchema sem a localização especificada será criada no diretório **`dbfs:/user/hive/warehouse/<schema_name>.db/`** 
+-- MAGIC Por padrão, tabelas gerencidas em um schema sem a localização especificada será criada no diretório **`dbfs:/user/hive/warehouse/<schema_name>.db/`** 
 -- MAGIC 
 -- MAGIC Podemos ver que, como esperado, os dados e metadados da nossa tabela Delta são armazenados nesse local.
 
@@ -188,15 +188,18 @@ DROP TABLE managed_table_in_db_with_custom_location;
 USE ${da.schema_name}_default_location;
 
 -- criar uma temporary view
-CREATE OR REPLACE TEMPORARY VIEW temp_delays USING CSV OPTIONS (
+CREATE OR REPLACE TEMPORARY VIEW temp_delays 
+USING CSV 
+OPTIONS (
   path = '${da.paths.datasets}/flights/departuredelays.csv',
   header = "true",
   mode = "FAILFAST" -- abort file parsing with a RuntimeException if any malformed lines are encountered
 );
 
 -- criar uma tabela a partir da temp view
-CREATE OR REPLACE TABLE external_table LOCATION '${da.paths.working_dir}/external_table' AS
-  SELECT * FROM temp_delays;
+CREATE OR REPLACE TABLE external_table 
+LOCATION '${da.paths.working_dir}/external_table' 
+AS SELECT * FROM temp_delays;
   
 SELECT * FROM external_table; 
 
