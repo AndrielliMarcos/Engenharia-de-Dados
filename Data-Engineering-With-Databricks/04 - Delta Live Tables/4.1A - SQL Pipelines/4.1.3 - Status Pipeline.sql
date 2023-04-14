@@ -8,7 +8,7 @@
 -- MAGIC Esta lição não pretende fornecer uma solução robusta para desenvolvimento e teste de código, em vez disso, destina-se ajudar os usuários a começar com DLT e lidar uma sintaxe desconhecida.
 -- MAGIC 
 -- MAGIC ###Objetivos:
--- MAGIC - Identificar e soluvionar problemas de sintaxe DLT
+-- MAGIC - Identificar e solucionar problemas de sintaxe DLT
 -- MAGIC - Desenvolver iterativamente pipelines DLT com notebooks
 
 -- COMMAND ----------
@@ -80,3 +80,7 @@ AS SELECT a.*, b.email
 FROM LIVE.status_silver a
 INNER JOIN LIVE.subscribed_order_emails_v b
 ON a.order_id = b.order_id;
+
+-- COMMAND ----------
+
+
