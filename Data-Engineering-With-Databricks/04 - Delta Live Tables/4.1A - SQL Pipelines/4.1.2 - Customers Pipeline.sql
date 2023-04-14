@@ -24,7 +24,7 @@
 -- MAGIC ###Ingestão de dados com Auto Loader
 -- MAGIC Como no notebook anterior, definimos a tabela bronze em uma fonte de dados configurada com o Auto Loader.
 -- MAGIC 
--- MAGIC Observe que o código a seguir omite a option Auto Loader para inferiir o schema. Quando os dados sçao ingeridos de JSON sem um schema fornecido ou inferido, os campos terão os nomes corretos, mas serão todos armazenados como tipo STRING.
+-- MAGIC Observe que o código a seguir omite a option Auto Loader para inferir o schema. Quando os dados são ingeridos de JSON sem um schema fornecido ou inferido, os campos terão os nomes corretos, mas serão todos armazenados como tipo STRING.
 -- MAGIC 
 -- MAGIC O código abaxo também fornece um comentário simples e adiciona campos para a hora da ingestão de dados e o nome de cada registro.
 
