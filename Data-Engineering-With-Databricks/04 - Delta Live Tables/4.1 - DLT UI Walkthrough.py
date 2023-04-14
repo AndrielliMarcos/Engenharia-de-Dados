@@ -15,7 +15,7 @@
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC ###Gerar configuração da pipeline
+# MAGIC ###Gerar configuração do pipeline
 # MAGIC A configuração da nossa pipeline inclui parâmetros exclusivos para um determinado usuário.
 # MAGIC 
 # MAGIC Você irá previsar especificar qual linguagem usar para descomentar a linha apropriada.
