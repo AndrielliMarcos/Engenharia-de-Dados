@@ -104,7 +104,7 @@
 -- MAGIC 
 -- MAGIC Observe que você só pode executar esta seção se tiver seguido o exercício *Gerenciar usuários e grupos* e criado um grupo no Unity Catalog chamado *analysts*.
 -- MAGIC 
--- MAGIC Execute esta seção descomentando as céluas de código e executando-as em sequência. Você també será solicitada a executar algumas consultas como um usuário secundário. 
+-- MAGIC Execute esta seção descomentando as céluas de código e executando-as em sequência. Você també será solicitado a executar algumas consultas como um usuário secundário. 
 -- MAGIC Para fazer isso:
 -- MAGIC 1. Abra uma sessão de navegação privada separada e faça login no Databricks SQL usando a ID de usuário que você criou ao executar *Gerenciar usuários e grupos* 
 -- MAGIC 1. Crie um terminal SQL seguindo as instruções em *Criar terminal SQL no Unity Catalog*
