@@ -111,7 +111,7 @@ SELECT * FROM patient_gold.heartrate_stats;
 -- MAGIC Para fazer isso:
 -- MAGIC 1. Abra uma sessão de navegação privada separada e faça login no Databricks SQL usando a ID de usuário que você criou ao executar *Gerenciar usuários e grupos* 
 -- MAGIC 1. Crie um terminal SQL seguindo as instruções em *Criar terminal SQL no Unity Catalog*
--- MAGIC 1. Prepare-se para inserir consultas conforme as nstruções abaixo nesse ambiente
+-- MAGIC 1. Prepare-se para inserir consultas conforme as instruções abaixo nesse ambiente
 
 -- COMMAND ----------
 
