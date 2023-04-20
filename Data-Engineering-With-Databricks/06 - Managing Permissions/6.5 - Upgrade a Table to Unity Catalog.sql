@@ -12,7 +12,7 @@
 -- MAGIC ###Configurar
 -- MAGIC Execute as células a seguir para realizar algumas configurações. Para evitar conflitos em um ambiente de treinamento compartilhado, isso criará um banco de dados com nome exclusivo para seu uso. Isso também criará uma tabela de origem de exemplo chamada filmes no metastores legado do Hive.
 -- MAGIC 
--- MAGIC Observação: este notebook assume um catálogo chmado *main* em seu metastore do Unity Catalog. S Se você precisar direcionar para um catálogo diferente, edite o notebook em **Classroom-Setup**.
+-- MAGIC Observação: este notebook assume um catálogo chamado *main* em seu metastore do Unity Catalog. Se você precisar direcionar para um catálogo diferente, edite o notebook em **Classroom-Setup**.
 
 -- COMMAND ----------
 
