@@ -11,7 +11,7 @@
 -- MAGIC %md
 -- MAGIC ### Visão Geral
 -- MAGIC Antes do Unity Catalog, uma solução completa de governança de dados exigia uma configuração cuidadosa das configurações do workspace, listas de controle de acesso e configurações de políticas d cluster. Era um sistema cooperativo que, se não for configurado corretamente, poderia permitir que os usuários contornassem completamente o controle de acesso.
--- MAGIC 
+-- MAGIC
 -- MAGIC Embora o Unity Catalog apresente algumas novas configurações, o sistema não requer nenhuma configuração específica para ser seguro. Sem as configurações adequadas, os clusters não poderão acessar nenhum dado protegido, tornando o Unity Catalog seguro por padrão. Isso, juntamente com seu controle e auditoria aprimorados e refinados, torna o Unity Catalog uma solução de governança de dados segnificativamente evoluída.
 
 -- COMMAND ----------
@@ -58,6 +58,7 @@
 -- MAGIC 1. Vamos explorar a hierarquia. Os catálogos, schemas e tabelas que você pode selecionar dependem de quão populoso é seu metastore e das permissões
 -- MAGIC 1. O catálogo *main* é criado por padrão como parte do processo de criação de metastore (semelhante a um schema padrão)
 -- MAGIC 1. O catálogo *hive_metastore* corresponde ao metastore do Hive local para o workspace 
+-- MAGIC
 
 -- COMMAND ----------
 
@@ -87,7 +88,7 @@
 -- MAGIC 1. Vamos tornar o cluster acessível a todos no espaço de trabalho. Na caixa de diálogo **Manage permissions**, vamos adicionar uma nova permissão:
 -- MAGIC     - Clique no campo *search* e select *All users*
 -- MAGIC     - Deixe a permissão definida como *Can use* e clique em **Add**
--- MAGIC 
+-- MAGIC
 -- MAGIC Esta operação leva alguns instantes, então vamos esperar que nosso warehouse comece.
 
 -- COMMAND ----------

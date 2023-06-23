@@ -2,6 +2,8 @@
 # MAGIC %md
 # MAGIC # Delta Live Tables: Python vs SQL
 # MAGIC Nesta lição iremos revisar as principai diferenças entre as implementações Python e SQL de Delta Live Tables.
+# MAGIC
+# MAGIC
 
 # COMMAND ----------
 

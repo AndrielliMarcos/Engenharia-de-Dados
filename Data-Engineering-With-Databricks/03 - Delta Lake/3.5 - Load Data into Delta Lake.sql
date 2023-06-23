@@ -1,14 +1,14 @@
 -- Databricks notebook source
 -- MAGIC %md
 -- MAGIC #Carregando dados para o Delta Lake
--- MAGIC 
+-- MAGIC
 -- MAGIC As tabelas Delta Lake fornecem atualizações compatíveis com ACID para tabelas apoiadas por arquivos de dados no armazenamento de objetos em nuvem.
--- MAGIC 
+-- MAGIC
 -- MAGIC Neste notebook, iremos explorar a sintaxe SQL para processar atualizações com Delta Lake. Embora muitas operações sejam padrão SQL, existem pequenas variações para acomodar a execução do Spark e do Delta Lake.
--- MAGIC 
+-- MAGIC
 -- MAGIC ### Objetivos:
 -- MAGIC - Sobrescrever tabelas de dados usando **`INSERT OVERWRITE`**
--- MAGIC - Anexar em uma tabela usando **`INSERT INTO`**
+-- MAGIC - Anexar dados em uma tabela usando **`INSERT INTO`**
 -- MAGIC - Anexar, atualizar e deletar de uma tabela usando **`MERGE INTO`**
 -- MAGIC - Ingerir dados de forma incremental em tabelas usando **`COPY INTO`**
 
@@ -25,9 +25,9 @@
 -- MAGIC - A versão antiga da tabela ainda existe. E pode facilmente recuperar os dados antigos usando Time Travel.
 -- MAGIC - É uma operação atômica. Consultas concorrentes ainda podem ler as tabelas enquanto você está deletando a tabela.
 -- MAGIC - Devido as garantias de transação ACID, se a substituição da tabela falhar, a tabela estará em seu estado anterior.
--- MAGIC 
+-- MAGIC
 -- MAGIC O Spark SQL fornece dois métodos fáceis para realizar um overwrite completo.
--- MAGIC 
+-- MAGIC
 -- MAGIC A instrução **`CREATE OR REPLACE TABLE`** (CRAS) substitui totalmente o conteúdo de uma tabela cada vez que são executadas.
 
 -- COMMAND ----------
@@ -48,7 +48,7 @@ DESCRIBE HISTORY events
 
 -- MAGIC %md
 -- MAGIC **`INSERT OVERWRITE`** fornece um resultado quase idêntico ao anterior: os dados na tabela destino serão substituídos pelos dados da consulta.
--- MAGIC 
+-- MAGIC
 -- MAGIC **`INSERT OVERWRITE`:**
 -- MAGIC - Podem sobrescrever somente uma tabela existente, não cria uma nova como a instrução CRAS
 -- MAGIC - Podem sobrescrever somente com novos registros que correspondam ao esquema da tabela atual - e, portanto, pode ser uma técnica mais segura para sobrescrever uma tabela existente sem interromper os consumidores downstream
@@ -72,9 +72,9 @@ DESCRIBE HISTORY sales
 
 -- MAGIC %md
 -- MAGIC A principal diferença aqui tem haver com a forma como o Delta Lake aplica o esquema na gravação.
--- MAGIC 
+-- MAGIC
 -- MAGIC Enquanto que a instrução CRAS irá nos permitir redefinir completamente o conteúdo da nossa tabela destino, **`INSERT OVERWRITE`** irá falhar se tentarmos mudar nosso schema (a menos que forneçamos configurações opcionais).
--- MAGIC 
+-- MAGIC
 -- MAGIC Descomente e execute a célula abaixo para gerar uma mensagem de erro esperada.
 
 -- COMMAND ----------
@@ -87,7 +87,7 @@ DESCRIBE HISTORY sales
 -- MAGIC %md
 -- MAGIC ### Acrescentar(append) Linhas
 -- MAGIC Nós podemos usar **`INSERT INTO`** para acrescentar atomicamente novas linhas em uma tabela Delta existente. Isso permite atualizações incrementais em uma tabela existente, o que é muito mais eficiente que sobrescrever todas as vezes.
--- MAGIC 
+-- MAGIC
 -- MAGIC Acrescentar novos registros de venda na tabela **`sales`** usando **`INSERT INTO`**.
 
 -- COMMAND ----------
@@ -104,8 +104,8 @@ SELECT * FROM parquet.`${da.paths.datasets}/ecommerce/raw/sales-30m`
 
 -- MAGIC %md
 -- MAGIC ###Mesclar (MERGE) atualizações
--- MAGIC Você pode fazer um *upsert* (atualizar e inserir) de dados de uma tabela origem, view ou DataFrame em uma tabela Delta destino usando a operação **`MERGE SQL`**. O Delta Lake suporta *insert*, *update* e *delete* no **`MERGE`**, e suporta simtaxe estendida além dos padrões SQL para facilitar casos de uso avançados.
--- MAGIC 
+-- MAGIC Você pode fazer um *upsert* (atualizar e inserir) de dados de uma tabela origem, view ou DataFrame em uma tabela Delta destino usando a operação **`MERGE SQL`**. O Delta Lake suporta *insert*, *update* e *delete* no **`MERGE`**, e suporta sintaxe estendida além dos padrões SQL para facilitar casos de uso avançados.
+-- MAGIC
 -- MAGIC <strong><code>
 -- MAGIC MERGE INTO target a<br/>
 -- MAGIC USING source b<br/>
@@ -113,7 +113,7 @@ SELECT * FROM parquet.`${da.paths.datasets}/ecommerce/raw/sales-30m`
 -- MAGIC WHEN MATCHED THEN {matched_action}<br/>
 -- MAGIC WHEN NOT MATCHED THEN {not_matched_action}<br/>
 -- MAGIC </code></strong>
--- MAGIC 
+-- MAGIC
 -- MAGIC Iremos usar a operação **`MERGE`** para atualizar dados históricos de usuários com e-mails atualizados e novos usuários.
 
 -- COMMAND ----------
@@ -129,10 +129,10 @@ FROM parquet.`${da.paths.datasets}/ecommerce/raw/users-30m`
 -- MAGIC - updates, inserts e deletes são concluídos como uma única transação
 -- MAGIC - vários condicionais podem ser adicionados além dos campos correspondentes
 -- MAGIC - fornece amplas opções para implementar uma lógica personalizada
--- MAGIC 
+-- MAGIC
 -- MAGIC A seguir, iremos atualizar apenas os registros se a linha atual tiver um email **`NULL`** e a nova linha não.
--- MAGIC 
--- MAGIC Todos os registros não correspondemtes do novo lote serão inseridos.
+-- MAGIC
+-- MAGIC Todos os registros não correspondentes do novo lote serão inseridos.
 
 -- COMMAND ----------
 
@@ -147,18 +147,18 @@ WHEN NOT MATCHED THEN INSERT * --quando os ids não forem iguai, insere o novo i
 -- COMMAND ----------
 
 -- MAGIC %md
--- MAGIC Observe que espevificamos explicitamente o comportamento dessa função para as condições **`MATCHED`** e **`NOT MATCHED`**. O exemplo demostrado aqui é apenas um exemplo de lógica que pode se aplicada, ao invés de indicativo de todo comportamento **`MERGE`**.
+-- MAGIC Observe que especificamos explicitamente o comportamento dessa função para as condições **`MATCHED`** e **`NOT MATCHED`**. O exemplo demostrado aqui é apenas um exemplo de lógica que pode ser aplicada, ao invés de indicativo de todo comportamento **`MERGE`**.
 
 -- COMMAND ----------
 
 -- MAGIC %md
 -- MAGIC ###Mesclagem (MERGE) somente de inserção (insert) para desduplicação
 -- MAGIC Um caso de uso comum de ETL é coletar logs ou outros conjuntos de dados de cada anexação em uma tabela Delta por meio de uma série de operações de anexação.
--- MAGIC 
+-- MAGIC
 -- MAGIC Muitos sistemas de origem podem gerar registros duplicados. Com a mesclagem (MERGE), você pode evitar inserir os registros duplicados executando uma mesclagem (MERGE) somente na inserção.
--- MAGIC 
+-- MAGIC
 -- MAGIC Esse comando otimizado usa a mesma sintaxe **`MERGE`** mas fornece somente uma cláusula **`WHEN NOT MATCHED`**.
--- MAGIC 
+-- MAGIC
 -- MAGIC A seguir, usamos isto para confirmar que os registros com o mesmo **`user_id`** e **`event_timestamp`** ainda não estão na tabela **`events`**.
 
 -- COMMAND ----------
@@ -174,13 +174,13 @@ WHEN NOT MATCHED AND b.traffic_source = 'email' THEN
 -- MAGIC %md
 -- MAGIC ###Carregar incrementalmente
 -- MAGIC **`COPY INTO`** fornece aos engenheiros de SQL uma opção para ingerir dados de forma incremental de sistemas externos.
--- MAGIC 
+-- MAGIC
 -- MAGIC Observe que esta operação tem algumas expectativas:
 -- MAGIC - o schema de dados deve ser consistente
 -- MAGIC - registros duplicados devem ser excluídos ou tratados posteriormente
--- MAGIC 
+-- MAGIC
 -- MAGIC Essa operação é potencialmente muito mais barata do que verificações completas de tabela para dados que crescem de forma previsível.
--- MAGIC 
+-- MAGIC
 -- MAGIC Enquanto aqui iremos mostrar a execução simples em um diretório estático, o valor real está em várias execuções ao longo do tempo, selecionando novos arquivos na fonte automaticamente.
 
 -- COMMAND ----------

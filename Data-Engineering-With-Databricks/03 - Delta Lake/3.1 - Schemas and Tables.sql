@@ -1,11 +1,11 @@
 -- Databricks notebook source
 -- MAGIC %md
 -- MAGIC #Schemas e Tabelas no Databricks
--- MAGIC 
+-- MAGIC
 -- MAGIC ###Objetivos
 -- MAGIC - Usar Spark SQL DDL para definir schemas e tabelas
--- MAGIC - Descrver como a palavra chave **`LOCATION`** impacta o diretório padrão de armazenamento
--- MAGIC 
+-- MAGIC - Descrever como a palavra chave **`LOCATION`** impacta o diretório padrão de armazenamento
+-- MAGIC
 -- MAGIC ###Recursos
 -- MAGIC * <a href="https://docs.databricks.com/user-guide/tables.html" target="_blank">Schemas and Tables - Databricks Docs</a>
 -- MAGIC * <a href="https://docs.databricks.com/user-guide/tables.html#managed-and-unmanaged-tables" target="_blank">Managed and Unmanaged Tables</a>
@@ -50,7 +50,7 @@ DESCRIBE SCHEMA EXTENDED ${da.schema_name}_custom_location;
 
 -- MAGIC %md
 -- MAGIC Vamos criar uma tabela nos schema com location padrão e inserir dados.
--- MAGIC 
+-- MAGIC
 -- MAGIC Observe que o schema deve ser fornecido.
 
 -- COMMAND ----------
@@ -79,7 +79,7 @@ DESCRIBE DETAIL managed_table_in_db_with_default_location;
 
 -- MAGIC %md
 -- MAGIC Por padrão, tabelas gerencidas em um schema sem a localização especificada será criada no diretório **`dbfs:/user/hive/warehouse/<schema_name>.db/`** 
--- MAGIC 
+-- MAGIC
 -- MAGIC Podemos ver que, como esperado, os dados e metadados da nossa tabela Delta são armazenados nesse local.
 
 -- COMMAND ----------
@@ -88,7 +88,7 @@ DESCRIBE DETAIL managed_table_in_db_with_default_location;
 -- MAGIC table_name = "managed_table_in_db_with_default_location"
 -- MAGIC tbl_location = spark.sql(f"DESCRIBE DETAIL {table_name}").first().location
 -- MAGIC print(tbl_location)
--- MAGIC 
+-- MAGIC
 -- MAGIC files = dbutils.fs.ls(tbl_location)
 -- MAGIC display(files)
 
@@ -117,7 +117,7 @@ DROP TABLE managed_table_in_db_with_default_location;
 
 -- MAGIC %md
 -- MAGIC Agora vamos criar uma tabela no schema com a localização personalizada.
--- MAGIC 
+-- MAGIC
 -- MAGIC Observe que o schema deve ser fornecido.
 
 -- COMMAND ----------
@@ -152,7 +152,7 @@ DESCRIBE DETAIL managed_table_in_db_with_custom_location;
 -- MAGIC table_name = "managed_table_in_db_with_custom_location"
 -- MAGIC tbl_location = spark.sql(f"DESCRIBE DETAIL {table_name}").first().location
 -- MAGIC print(tbl_location)
--- MAGIC 
+-- MAGIC
 -- MAGIC files = dbutils.fs.ls(tbl_location)
 -- MAGIC display(files)
 
@@ -171,7 +171,7 @@ DROP TABLE managed_table_in_db_with_custom_location;
 -- MAGIC %python
 -- MAGIC schema_custom_location = spark.sql(f"DESCRIBE SCHEMA {DA.schema_name}_custom_location").collect()[3].database_description_value
 -- MAGIC print(schema_custom_location)
--- MAGIC 
+-- MAGIC
 -- MAGIC dbutils.fs.ls(schema_custom_location)
 
 -- COMMAND ----------
@@ -179,7 +179,7 @@ DROP TABLE managed_table_in_db_with_custom_location;
 -- MAGIC %md
 -- MAGIC ### Tabelas
 -- MAGIC Iremos criar uma tabela externa a partir dos dados de amostra.
--- MAGIC 
+-- MAGIC
 -- MAGIC Os dados que vamos usar são no formato CSV. Queremos criar uma tabela Delta com uma **`LOCATION`** fornecida no diretório da nossa escolha.
 
 -- COMMAND ----------

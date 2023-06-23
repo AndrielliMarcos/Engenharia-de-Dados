@@ -27,10 +27,10 @@
 -- MAGIC %md
 -- MAGIC ###Criar uma Storage Credential
 -- MAGIC O primeiro pré-requisito para criar *external tables* é estabelecer uma credencial para acessar o armazenamento em nuvem onde os dados da tabela ficarão. No Unity Catalog, essa construção é referida a uma *storage credential* (credencial de armazenamento) e criaremos uma agora.
--- MAGIC 
+-- MAGIC
 -- MAGIC Precisamos de alguma informações para criar uma *storage credential*:
 -- MAGIC - Para o Azure, exigimos um diretório, uma *application ID* e um *client secret* de um *service principal* que recebeu a função de **Azure Blob Contributor** no local de armazenamento. Consulte <a href="https://docs.microsoft.com/en-us/azure/databricks/data-governance/unity-catalog/create-tables#create-an-external-table" target="_blank">este documento</a> pata obter mais informaçãoes.
--- MAGIC 
+-- MAGIC
 -- MAGIC Com essa informações necessárias, vamos para a persona SQL e, continuando a seguir o documento relevante vinculado acima, vamos criar uma *storage credential*, anote o nome que você atribui e retorne a este notebook.
 
 -- COMMAND ----------
@@ -52,12 +52,12 @@
 -- MAGIC %md
 -- MAGIC ###Criar uma External Location
 -- MAGIC Embora possamos usar *storage locations* diretamente para gerenciar o acesso aos nossos recursos externos, o Unity Catalog também fornece uma **external location** que especifica adicionalmente uma path dentro do conteinêr de armazenamento. O uso de *external locations* para controle de acesso é a abordagem preferida, pois nos dá controle no nível da path do arquivo, e não no nível do próprio contêiner de armazenamento.
--- MAGIC 
+-- MAGIC
 -- MAGIC Para definir uma *estrenal location*, precisamos de algumas informações adicionais:
 -- MAGIC - Para o Azure, exigimos a path do contêiner de armazenamento. Consulte <a href="https://docs.microsoft.com/en-us/azure/databricks/data-governance/unity-catalog/create-tables#create-an-external-location" target="_blank">este documento</a> para obter mais detalhes.
--- MAGIC 
+-- MAGIC
 -- MAGIC Vamos voltar para a persona SQL e, continuando a seguir o documento acima, vamos criar uma *external location*. Se desejar, você pode atribuir sua *external location* com o mesmo nome da *storage credential*, embora isso geralmente não seja uma boa prática, pois geralmente haverá muitas *external locations* referenciando uma *storage credential*. De qualquer forma, anote o nome que você atribuiu e volte para este notebook.
--- MAGIC 
+-- MAGIC
 -- MAGIC Seguindo o guis apropriado com base em seu provedor de nuvem, crie a *external location* na página **Data** da persona **SQL** e retorne para este notebook.
 
 -- COMMAND ----------
@@ -79,15 +79,15 @@
 -- MAGIC %md
 -- MAGIC ###Criar uma external table
 -- MAGIC Com uma *external location* definida, vamos usá-la para criar uma *external table*. Para este exemplo, usaremos a instrução **CREATE TABLE AS SELECT** para fazer uma cópia da tabela **silver_managed** que foi criada como parte da configuração.
--- MAGIC 
+-- MAGIC
 -- MAGIC A sintaxe para criar uma *exteranl table* é idêntica a uma tabela gerenciada, mas com a adição de uma especificação **LOCATION** que especifica a path de armazenamento em nuvem completo contendo os arquivos de dados da tabela.
--- MAGIC 
+-- MAGIC
 -- MAGIC Como não estamos usando *storage credentials* para gerenciar o acesso ao nosso armazenamento, essa operação só poderá ser bem-sucedoda se:
 -- MAGIC - somos proprietários de um objeto *external location* que cobre a localização especificada (o que é o caso aqui), ou
 -- MAGIC - temos o privilégio **CREATE_TABLE** no objeto *external location* que cobre a localização especificada.
--- MAGIC 
+-- MAGIC
 -- MAGIC E, assim comonas tabelas gerenciadas, é claro que também devemos ter o privilégio **CREATE** no banco de dados, bem como **USAGE** no banco de dados e no catálogo.
--- MAGIC 
+-- MAGIC
 -- MAGIC Descomente a célula abaixo e substitua o valor de **url** acima.
 
 -- COMMAND ----------
@@ -101,15 +101,15 @@
 -- MAGIC %md
 -- MAGIC ###Conceder acesso uma uma external table [opcional]
 -- MAGIC Uma vez que a external table é criada, o controle de acesso trabalha da mesma forma como na tabela gerenciada.
--- MAGIC 
+-- MAGIC
 -- MAGIC Observe que você só pode executar esta seção se tiver seguido o exercício *Gerenciar usuários e grupos* e criado um grupo no Unity Catalog chamado *analysts*.
--- MAGIC 
+-- MAGIC
 -- MAGIC Execute esta seção descomentando as céluas de código e executando-as em sequência. Você també será solicitado a executar algumas consultas como um usuário secundário. 
 -- MAGIC Para fazer isso:
 -- MAGIC 1. Abra uma sessão de navegação privada separada e faça login no Databricks SQL usando a ID de usuário que você criou ao executar *Gerenciar usuários e grupos* 
 -- MAGIC 1. Crie um terminal SQL seguindo as instruções em *Criar terminal SQL no Unity Catalog*
 -- MAGIC 1. Prepare-se para inserir consultas conforme as instruções abaixo nesse ambiente
--- MAGIC 
+-- MAGIC
 -- MAGIC Vamos executar a célula a seguir para gerar uma instrução de consulta que lê a *external table*. Copie e cole a saída em uma nova consulta no ambiente Databricks SQL do seu usuário secundário e excute a consulta.
 
 -- COMMAND ----------
@@ -124,7 +124,7 @@
 -- MAGIC * **USAGE** no catálogo
 -- MAGIC * **USAGE** no database
 -- MAGIC * **SELECT** na tabela
--- MAGIC 
+-- MAGIC
 -- MAGIC Vamos abordar isso agora com as três declarações **GRANT** a seguir. Descomente e execute a célula a seguir.
 
 -- COMMAND ----------
@@ -143,6 +143,7 @@
 -- MAGIC %md
 -- MAGIC ###Comparando tabelas externas e gerenciadas
 -- MAGIC Vamos fazer uma comparação de alto nível das duas tabelas usando **DESCRIBE EXTENDED**.
+-- MAGIC
 
 -- COMMAND ----------
 
@@ -156,7 +157,7 @@
 
 -- MAGIC %md
 -- MAGIC Na maioria das vezes, a tabelas são semelhantes, mas a principal diferença está na **LOCATION**.
--- MAGIC 
+-- MAGIC
 -- MAGIC Agora vamos comparar o comportamento quando eliminamos e recriamos essas tabelas. Antes de fazermos isso, vamos usar **SHOW CREATE TABLE** para capturar os comando necessários para recriar essa tabelas depois de eliminá-las. Descomente e execute as células a seguir.
 
 -- COMMAND ----------
@@ -213,7 +214,7 @@
 
 -- MAGIC %md
 -- MAGIC Observe esta diferença fundamental no comportamento. No caso gerenciado, todos os dados da tabela foram descartados quando a tabela foi eliminada. No caso externo, como o Unity Catalog  não gerencia os dados, ele foi retido recriando a tabela usando o mesmo local.
--- MAGIC 
+-- MAGIC
 -- MAGIC Antes de prosseguir para a proxima seção, vamos descomentar e executar a célula a seguir para executar um pouco de limpeza descartando a tabela **silver_external**. Observe novamente que isso apenas eliminará a tabela. Os arquivos de dados que suportam a tabela serão retidos.
 
 -- COMMAND ----------
@@ -225,12 +226,12 @@
 -- MAGIC %md
 -- MAGIC ###Conceder acesso aos arquivos
 -- MAGIC Anteriormente, criamos uma *storage credential* e uma *external location* para nos permitir criar uma *external table* cujos arquivos de dados residem em um armazenamento em nuvem externo.
--- MAGIC 
+-- MAGIC
 -- MAGIC *Storage credential* e *external location* oferecem suporte a privilégios espevializados que nos permitem controlar o acesso aos arquivos armazenados nesses lovais. Esses privilégios incluem:
 -- MAGIC * **READ FILES**: capacidade de ler diretamente os arquivos armazenados neste local
 -- MAGIC * **WRITE FILES**: capacidade de gravar diretamente arquivos armazenados neste local
 -- MAGIC * **CREATE TABLE**: capacidade de criar uma tabela com base nos arquivos armazenados neste local
--- MAGIC 
+-- MAGIC
 -- MAGIC A instrução SQL a seguir nos mostra uma lista dos arquivos no local especificado. Descomente e execute a célula a seguir, volocando o valor **url** usado anteriormente para criar a external table **silver_external**.
 
 -- COMMAND ----------
@@ -250,9 +251,9 @@
 
 -- MAGIC %md
 -- MAGIC Nenhum privilégio adicional é necessário para fazer essa últimas operações, pois somos os proprietários do objeto da *external location* que cobre esse caminho.
--- MAGIC 
+-- MAGIC
 -- MAGIC Se você estiver acompanhando como um usuário secundário no Databricks SQL, copie e cole o código acima como uma nova consulta nesse ambiente e execute-o.
--- MAGIC 
+-- MAGIC
 -- MAGIC Isso falha porque o usuário não tem GRANT **READ FILES** no local. Vamos corrigir isso agora executando o seguinte comando, substituindo o nome da *external location* criado anteriormente.
 
 -- COMMAND ----------

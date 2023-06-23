@@ -11,7 +11,7 @@
 -- MAGIC %md
 -- MAGIC ###Visão Geral
 -- MAGIC As identities do Databricks existem em dois níveis. Os usuários existentes do Databricks provavelmente estão familiarizados com as identities no vível do workspace, que foram e continuam sendo vinculadas às credenciais usadas para acessar os serviços do Databricks, como o workspace de Data Science e Engineering, Databricks SQL e Databricks Machine Learning. Antes do Unity Catalog, as identities em nível de conta tinham pouca relevância para a maioria dos usuários, pois essas identities eram usadas apenas para administrar a account (conta) do Databricks. Com a introdução do Unity Catalog e sua situação fora do workspace, fazia sentido enraizar as identities que ele usa no nível de account. Portanto, é importante entender a distinção entre esses dois níveis de identity e como gerenciar o relacionamento entre os dois.
--- MAGIC 
+-- MAGIC
 -- MAGIC As identities em nível de account, nas quais focamos nesta demontração, são gerenciadas por meio do account console do Databricks ou de suas APIs SCIM associadas. Nesta demonstração, vamos focar no uso do account console, mas veremos os pontos de integração para automatizar o gerenciamento de identities.
 
 -- COMMAND ----------
@@ -25,9 +25,9 @@
 -- MAGIC %md
 -- MAGIC ###Gerenciando usuários e service principals
 -- MAGIC No Databricks, um **usuário** corresponde a um indivíduo que usa o sistema de forma interativa - ou seja, uma pessoa. O usuários são identificados através do endereço emails deles e autenticados usando esse endereço de email e uma senha que eles gerenciam. Os usuários interagem com a plataforma atrvés da inteface do usuário e eles também podem acessar a funcionalidade por meio de ferramentas de linha de comando e APIs REST. A prática recomendada determina que els gerem um token de acesso pessoal (PAT) para autenticar essas ferramentas.
--- MAGIC 
+-- MAGIC
 -- MAGIC Somente os poucos usuários que são administradores de conta realmente farão login na accont console. O restante fará login em um dos workspaces aos quais foram atribuídos. Porém, sua identity no nível da account ainda é crítica para permitir o acesso aos dados por meio do Unity Catalog.
--- MAGIC 
+-- MAGIC
 -- MAGIC Um **service pricipal** (entidade de serviço) é um tipo diferente de identity individual destinada ao uso com ferramentas de automação e jobs em execução. Eles recebem um nome de account admin, embora sejam identificados por meio de um identificador exclusivo global (GUID) que é gerado dinamicamente quando a identidade é criada. Os Service Principals são autenticados em um espaço de trabalho usando um token e acessam a funcionalidade através de API.
 
 -- COMMAND ----------
@@ -42,7 +42,7 @@
 -- MAGIC 1. Forneça o nome e sobrenome. Embora estes nomes não sejam usados pelo sistema, eles tornam as identities mais legíveis por humanos.
 -- MAGIC 1. Clique em **Send invite.
 -- MAGIC 1. O novo usuário receberá um email convidando-o a ingressar e definir sua senha.
--- MAGIC 
+-- MAGIC
 -- MAGIC Embora este usuário tenha sido adicionado à conta, ele ainda não poderá acessar os serviços do Databricks, pois não foi atribuído a nenhum workspace. No entanto, sua adição à conta os torna um titular válido ais olhos do Unity Catalog.
 
 -- COMMAND ----------
@@ -57,9 +57,9 @@
 -- MAGIC 1. Selecione a aba **Permissions**
 -- MAGIC 1. Clique em **Grant**
 -- MAGIC 1. Faça uma pesquisa digitando algum elemento da identity que acabamos de criar (nome, endereço de email, nome de domínio)
--- MAGIC 
+-- MAGIC
 -- MAGIC Observe como a identity aparece na lista supensa como uma ententity selecionável. Isso sifnifica que essa identificação é uma identity válida no que diz respeito ao Unity Catalog. Isso também significa que podemos começar a conceder privilégios em objetos de dados a esse usuário. No entendo, esse usuário ainda não pode fazer nada, pois não está atribuído a nenhum workspace.
--- MAGIC 
+-- MAGIC
 -- MAGIC **Observação: apesar do que foi dito, é recomendável gerenciar permissões em objetos de dados usando grupos, como discutiremos com mais detalhes em breve. Esta prática leva a um sistema que é muito mais fácil de manter.**
 
 -- COMMAND ----------
@@ -67,7 +67,7 @@
 -- MAGIC %md
 -- MAGIC ###Deletando um usuário
 -- MAGIC Se um usuário deicar a organização nós podemos deletar ele sem afetar qualquer objeto de dados que ele possua. Se eles estiverem ausentes por um período prolongado, mas desejamos revogar temporariamente o acesso, os usuários também podem ser desativados (embora essa opção esteja disponível apenas por meio da API no momento).
--- MAGIC 
+-- MAGIC
 -- MAGIC Como deletar um usuário:
 -- MAGIC 1. Na página **User management** do account console, localize e selecione o usuário de destino (usando o vampo **Search**, se desejar)
 -- MAGIC 1. Clique nos três pontos no canto superior direito da página e selecione **Delete user** (você será solicitado a confirmar, mas por enquanto você pode cancelar)
@@ -81,9 +81,9 @@
 -- MAGIC 1. Clique em **Add service principal**
 -- MAGIC 1. Forneça um nome. Embora esa não seja uma informação de identificação, é úti, usar algo que faça sentido para os administradores
 -- MAGIC 1. Clique Add
--- MAGIC 
+-- MAGIC
 -- MAGIC Service principals são identificados pelo **Aplication ID** deles.
--- MAGIC 
+-- MAGIC
 -- MAGIC Para deletar um service principal:
 -- MAGIC 1. Na aba **Service Principals**, localize e selecione o service principal desejado na lista. Use o campo **Search** se necessário
 -- MAGIC 1. Clique nos três pontos no canto superior direito da página e selecione **Delete** (você será solicitado a confirmar, mas por enquanto você pode cancelar)
@@ -96,7 +96,7 @@
 -- MAGIC * Libera o account admin das responsabilidades de gerenciamento de usuários e grupos
 -- MAGIC * Simplifica a sincronização. Embora o Databricks mantenha suas próprias identities para seus usuários, a integração do provedor de identity pode gerar automaticamente os usuários em nome do administrador
 -- MAGIC * Simplifica a experiência do usuário acessando o Databricks por meio do SSO da sua organização
--- MAGIC 
+-- MAGIC
 -- MAGIC A configuração está fora do escopo deste treinamento, no entanto, aqui está como você pode acessar esses recursos:
 -- MAGIC 1. Vamos clicar no ícone **Settings** na barra lateral esquerda da account console
 -- MAGIC 1. Consulte as abas **Single sign-on** e **User Provisioning tabs**
@@ -106,11 +106,11 @@
 -- MAGIC %md
 -- MAGIC ###Gerenciando Grupos
 -- MAGIC O conceito de grupos é difundido em inúmeros modelos de segunça e por boa razões. Os grupos reúnem usuários individuais (e service principals) em unidades lógivas para simplificar o gerenciamento. Os grupos também podem ser aninhados dentro de outros grupos, se necessário. Quaiquer concessões no grupo são automaticamente herdadas por todos os membros do grupo.
--- MAGIC 
+-- MAGIC
 -- MAGIC As políticas de governança de dados são definidas em termos de funçõrs, e os grupos fornecem uma construção de gerenciamento de usuários que mapeia bem essas funções, simplificando a implementação dessa polítivas de governança. Dessa forma, as permissões podem ser concedidas a grupos de acordo com as polítivas de segurança de sua organização e os usuários podem ser adicionados a grupos de acordo com suas funções dentro da organização.
--- MAGIC 
+-- MAGIC
 -- MAGIC Quando os usuários fazem a transição entre funções, é simples mover um usuário de um grupo para outro. Executar uma operação equivalente quando as permissões são conectadas no nível do usuário individual é significativamente mais intensivo. Da mesma forma, à medida que seu modelo de governança evolui e as definições de função mudam, é muito mais fácil efetuar essas alterações nos grupos em vez de replicar a alterações em vários usuários individuais.
--- MAGIC 
+-- MAGIC
 -- MAGIC Por esses motivos, recomendamos implementar grupos e conceder permissões de dados a grupos em vez de usuários individuais ou entidades de serviço.
 
 -- COMMAND ----------
@@ -121,7 +121,7 @@
 -- MAGIC 1. Clique em **Add group**
 -- MAGIC 1. Dê um nome para o grupo (por exemplo *analysts*)
 -- MAGIC 1. Clique **Save**
--- MAGIC 
+-- MAGIC
 -- MAGIC Vamos repetir o processo para criar outro novo grupo chamado *metastore_admins*.
 -- MAGIC A partir daqui podemos adicionar imediatamente membros ao novo grupo, ou é uma tarefa que ser realizada a qualquer momento.
 
@@ -132,19 +132,19 @@
 -- MAGIC Vamos adicionar o usuário que criamos anteriormente ao grupo *analysts* que acavamos de criar
 -- MAGIC 1. Na aba **Groups**, localize e selecione o grupo *analysts*, usando o campo **Search** se desejar
 -- MAGIC 1. Clique em **Add members**
--- MAGIC 
+-- MAGIC
 -- MAGIC A partir daqui, podemos usar o campo de texto pesquisável que também funciona como um menu suspenso quando clicado. Vamos identificar os usuários, service principals ou grupos que queremos adicionar (procure e selecione o usuário criado anteriormente) e clique em **Add**. Observe que podemos adicionar vários deuma só vez, se necessário.
--- MAGIC 
+-- MAGIC
 -- MAGIC A associação do usuário ao grupo entra em vigor imediatamente.
--- MAGIC 
+-- MAGIC
 -- MAGIC Agora vamos repetir o processo para adicionar nós mesmo (não os usuários criados) ao grupo *metastore_admins* que acabamos de criar. A intenção desse grupo é simplificar o gerenciamento dos administradores do metastore, mas essa ação ainda não fará anada. Nós vamos chegar a isso na próxima seção.
--- MAGIC 
+-- MAGIC
 -- MAGIC Remover um membro de um grupo é simples:
 -- MAGIC 1. Localize e selecione o grupo que deseja gerenciar na aba **Groups**
 -- MAGIC 1. Localize o membro, usando o campo **Search** se desejar
 -- MAGIC 1. Clique nos três pontos na coluna mais à direita
 -- MAGIC 1. Selecione **Remove** (você será solicitado a confirmar, mas por enquanto você pode cancelar)
--- MAGIC 
+-- MAGIC
 -- MAGIC Todos os membros listados no grupo (incluindo grupos filhos) herdam automaticamente quaisquer concessões concedidas ao grupo. A atribuição de privilégios de maneira grupal como essa é considerada uma prática recomendada de governança de dados, pois simplifica bastante a implementação e a manutenção do modelo de segurança de uma orgacização.
 
 -- COMMAND ----------
@@ -152,11 +152,12 @@
 -- MAGIC %md
 -- MAGIC ### Deletando um grupo
 -- MAGIC À medida que seu modelo de governança de dados evolui, pode ser necessário eleminar grupos. A exclusão de grupos no Unity Catalog destrói a estrutura de associação e as permissões transmitidas, mas não excluirá recursivamente seus membros, nem afetará as permissões concedidas diretamente a esses indivíduos ou grupos filhos.
--- MAGIC 
+-- MAGIC
 -- MAGIC Na barra lateral esquerda, clique em ** Users & Groups**
 -- MAGIC 1. Na aba **Groups**, localize o grupo alvo, usando o campos **Search** se desejar
 -- MAGIC 1. Clique nos três pontos na coluna mais a direita
 -- MAGIC 1. Selevione **Delete** (você será solicitado a confirmar, mas por enquanto pode cancelar)
+-- MAGIC
 
 -- COMMAND ----------
 
@@ -171,11 +172,11 @@
 -- MAGIC 1. A lista suspensa **Pernission** oferece a opção de adicionar o membro como usuário regular ou um workspace admin. Deixe isso definido como *User*
 -- MAGIC 1. Especifique membros adicionais, se desejar
 -- MAGIC 1. clique em **Save**
--- MAGIC 
+-- MAGIC
 -- MAGIC Os account admin também podem cancelar a atribuição de usuários ou service principal de um workspace.
 -- MAGIC 1. Na página **Workspace**, localize e selecione o workspace alvo. Use o campo **Search** se desejar
 -- MAGIC 1. Selecione a aba **Permissions**
 -- MAGIC 1. Localize o membro desejado e clique nos três pontos na coluna mais a direita
 -- MAGIC 1. Selecione **Remove** (você será solicitado a confirma, mas por enquanto você pode cancelar)
--- MAGIC 
+-- MAGIC
 -- MAGIC **Observação:** os workspace admins podem administrar usuários nos workspaces, embora seja considerado uma prática recomendada gerenciar os membros no nível da conta.

@@ -2,15 +2,15 @@
 -- MAGIC %md
 -- MAGIC # Limpeza dos dados
 -- MAGIC À medida que nós inspecionamos e limpamos nossos dados, nós precisaremos construir várias expressões de coluna e consultas para expressar transformações a serem aplicadas em nosso conjunto de dados.
--- MAGIC 
+-- MAGIC
 -- MAGIC Expressões de coluna são construídas de colunas existentes, operadores e funções integradas existentes. Elas podem ser usadas em instruções **SELECT** para expressar transformações que criam novas colunas.
--- MAGIC 
+-- MAGIC
 -- MAGIC Muitos comandos de consulta SQL padrão (e.g. **`DISTINCT`**, **`WHERE`**, **`GROUP BY`**, etc.) estão disponíveis no Spark SQL para expressar transformações.
--- MAGIC 
+-- MAGIC
 -- MAGIC Neste notebook, iremos rever alguns conceitos que podem diferir de outros sistemas aos quais você está acostumado, além de destacar algumas funções úteis para operações comuns.
--- MAGIC 
+-- MAGIC
 -- MAGIC Daremos atenção especial aos comportamentos em torno de valores **NULL**, bem como à formatação de strings e campos de data e hora.
--- MAGIC 
+-- MAGIC
 -- MAGIC ###Objetivos:
 -- MAGIC - Resumir conjuntos de dados e descrever comportamentos nulos
 -- MAGIC - Recupere e remova valores duplicados
@@ -32,7 +32,7 @@
 -- MAGIC | user_first_touch_timestamp | long | time at which the user record was created in microseconds since epoch |
 -- MAGIC | email | string | most recent email address provided by the user to complete an action |
 -- MAGIC | updated | timestamp | time at which this record was last updated |
--- MAGIC 
+-- MAGIC
 -- MAGIC Vamos começar contando os valores de cada campo da nossa tabela.
 
 -- COMMAND ----------
@@ -45,14 +45,14 @@ FROM users_dirty
 -- MAGIC %md
 -- MAGIC ###Inspecionando dados ausentes
 -- MAGIC Baseado na contagem acima, parece que há pelo menos alguns valores nulos em todos os campos.
--- MAGIC 
+-- MAGIC
 -- MAGIC **Observação:** Valores nulos se comportam incorretamente em algumas funções matemáticas, incluindo **`count()`**.
 -- MAGIC - **`count(col)`** pula valores **nulos** quando colunas ou expressões específicas
 -- MAGIC - **`count(*)`** é um caso especial que conta o número total de linhas (incluindo linhas cujo valor é **null**)
--- MAGIC 
+-- MAGIC
 -- MAGIC Nós podemos contar os valores **null** em um campo filtrando os registros em que esse campo é nulo:
 -- MAGIC **`count_if(col IS NULL)`** ou **`count(*)`** com um filtro **where** **`col IS NULL`**. 
--- MAGIC 
+-- MAGIC
 -- MAGIC Ambas as declarações acabixo contam corretamente os registros com os emails ausentes.
 
 -- COMMAND ----------
@@ -65,7 +65,7 @@ SELECT count(*) FROM users_dirty WHERE email IS NULL;
 -- MAGIC %python 
 -- MAGIC from pyspark.sql.functions import col
 -- MAGIC usersDF = spark.read.table("users_dirty")
--- MAGIC 
+-- MAGIC
 -- MAGIC usersDF.selectExpr("count_if(email IS NULL)")
 -- MAGIC usersDF.where(col("email").isNull()).count()
 
@@ -89,7 +89,7 @@ SELECT DISTINCT(*) FROM users_dirty
 -- MAGIC %md
 -- MAGIC ### Linhas duplicadas baseadas em colunas específicas
 -- MAGIC O código abaixo usa **`GROUP BY`** para remover registros duplicados baseados nos valores das colunas **`user_id`** e **`user_first_touch_timestamp`**. (Lembre-se que estes dois campos são gerados quando um determinado usuário é encontrado pela primeira vez, formando assim tuplas únicas).
--- MAGIC 
+-- MAGIC
 -- MAGIC Aqui, estamos usando a função de agregação *`max`* como um truque para:
 -- MAGIC - Manter valores das colunas **`email`** e **`updated`** no resultado no nosso group by
 -- MAGIC - Capturar emails não nulos quando registros múltiplos estão presentes
@@ -114,7 +114,7 @@ SELECT count(*) FROM deduped_users
 -- MAGIC     .agg(max("email").alias("email"), 
 -- MAGIC          max("updated").alias("updated"))
 -- MAGIC     )
--- MAGIC 
+-- MAGIC
 -- MAGIC dedupedDF.count()
 
 -- COMMAND ----------
@@ -141,9 +141,9 @@ WHERE user_id IS NOT NULL
 -- MAGIC %md
 -- MAGIC ### Validar os conjuntos de dados
 -- MAGIC Com base em nossa revisão manual acima, confirmamos visualmente que nossas contagens são as esperadas.
--- MAGIC 
+-- MAGIC
 -- MAGIC Podemos também executar validações programaticamente usando filtros simples e cláusulas **WHERE**.
--- MAGIC 
+-- MAGIC
 -- MAGIC Valide que o **`user_id`** para cada linha é único.
 
 -- COMMAND ----------
@@ -157,7 +157,7 @@ SELECT max(row_count) <= 1 no_duplicate_ids FROM (
 
 -- MAGIC %python
 -- MAGIC from pyspark.sql.functions import count
--- MAGIC 
+-- MAGIC
 -- MAGIC display(dedupedDF
 -- MAGIC     .groupby("user_id")
 -- MAGIC     .agg(count("*").alias("row_count"))
@@ -179,7 +179,7 @@ SELECT max(user_id_count) <= 1 at_most_one_id FROM (
 -- COMMAND ----------
 
 -- MAGIC %python
--- MAGIC 
+-- MAGIC
 -- MAGIC display(dedupedDF
 -- MAGIC     .where(col("email").isNotNull())
 -- MAGIC     .groupby("email")
@@ -191,11 +191,11 @@ SELECT max(user_id_count) <= 1 at_most_one_id FROM (
 -- MAGIC %md
 -- MAGIC ### Formato de Data e Regex
 -- MAGIC Agora que os campos nulos e duplicados foram eliminados, podemos desejar extrair mais valor dos dados.
--- MAGIC 
+-- MAGIC
 -- MAGIC O código abaixo:
 -- MAGIC - Dimensiona e converte corretamente o **`user_first_touch_timestamp`** para um **`timestamp`** válido
 -- MAGIC - Extrai os dados do calendário e a hora do relógio para o **`timestamp`** em formato legível por humanos
--- MAGIC - Usa **`regexp_extract`** para extrair o comínio da coluna email usando regex
+-- MAGIC - Usa **`regexp_extract`** para extrair o domínio da coluna email usando regex
 
 -- COMMAND ----------
 
@@ -213,7 +213,7 @@ FROM (
 
 -- MAGIC %python
 -- MAGIC from pyspark.sql.functions import date_format, regexp_extract
--- MAGIC 
+-- MAGIC
 -- MAGIC display(dedupedDF
 -- MAGIC     .withColumn("first_touch", (col("user_first_touch_timestamp") / 1e6).cast("timestamp"))
 -- MAGIC     .withColumn("first_touch_date", date_format("first_touch", "MMM d, yyyy"))

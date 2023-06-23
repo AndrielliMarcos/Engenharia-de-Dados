@@ -2,9 +2,9 @@
 -- MAGIC %md
 -- MAGIC # Tranformando Tipos Complexos
 -- MAGIC Consultando dados tabulares armazenados no data lakehouse com Spark SQL é fácil, eficiente e rápido.
--- MAGIC 
+-- MAGIC
 -- MAGIC Isso fica mais complicado à medida que a estrutura de dados se torna menos regular, quando muitas tabelas precisam ser usadas em uma única consulta ou quando a forma dos dados precisa ser alterada drasticamente. Este notebook introduz um número de funções presentes no Spark SQL para ajudar engenheiros a concluir até mesmo as transformações mais complicadas.
--- MAGIC 
+-- MAGIC
 -- MAGIC ### Objetivos:
 -- MAGIC - Usar sintaxe **`.`** e **`:`** para consultar dados aninhados
 -- MAGIC - Analisar strings JSON em estruturas
@@ -21,8 +21,9 @@
 -- MAGIC %md
 -- MAGIC ### Visão geral dos dados
 -- MAGIC A tabela **`events_raw`** foi registrada em relação aos dados que representam uma carga Kafka. Na maioria dos casos, dados kafka serão valores JSON codificados em binário.
--- MAGIC 
+-- MAGIC
 -- MAGIC Vamos converter a **`key`** e **`value`** como strings para visualizar esses valores em um formato legível por humanos.
+-- MAGIC
 
 -- COMMAND ----------
 
@@ -35,7 +36,7 @@ SELECT * FROM events_strings
 
 -- MAGIC %python
 -- MAGIC from pyspark.sql.functions import col
--- MAGIC 
+-- MAGIC
 -- MAGIC events_stringsDF = (spark
 -- MAGIC     .table("events_raw")
 -- MAGIC     .select(col("key").cast("string"), 
@@ -48,7 +49,7 @@ SELECT * FROM events_strings
 -- MAGIC %md
 -- MAGIC ###Trabalhar com dados aninhados
 -- MAGIC O código na célula abaixo consulta as strings convertidas para visualizar um exemplo de objeto JSON sem campos nulos.
--- MAGIC 
+-- MAGIC
 -- MAGIC **Observe:** Spark SQL tem funcionalidades integradas para interagir diretamente com dados aninhados armazenados como strings JSON ou tipos struct.
 -- MAGIC - Use sintaxe **`:`** em consultas para acessar subcampos em strings JSON
 -- MAGIC - Use sintaxe **`.`** em consultas para acessar subcampos em tipo struct
@@ -72,7 +73,7 @@ SELECT * FROM events_strings WHERE value:event_name = "finalize" ORDER BY key LI
 -- MAGIC Vamos usar a string JSON acima para obter o schema, em seguida analise toda a coluna JSON em tipos struct.  
 -- MAGIC - **`schema_of_json()`** retorna o schema obtido de um exemplo JSON string
 -- MAGIC - **`from_json()`** analisa uma coluna contendo uma string JSON em um tipo struct usando o esquema especificado.
--- MAGIC 
+-- MAGIC
 -- MAGIC Depois de desempacotar a string JSON para um tipo struct, vamos desempacotar e nivelar todos os campos struct em colunas.
 -- MAGIC - **`*`: `col_name.*`** extrai os subcampos de **`col_name`** em sua próprias colunas.
 
@@ -88,7 +89,7 @@ SELECT * FROM parsed_events
 
 -- MAGIC %python
 -- MAGIC from pyspark.sql.functions import from_json, schema_of_json
--- MAGIC 
+-- MAGIC
 -- MAGIC json_string = """
 -- MAGIC {"device":"Linux","ecommerce":{"purchase_revenue_in_usd":1047.6,"total_item_quantity":2,"unique_items":2},"event_name":"finalize","event_previous_timestamp":1593879787820475,"event_timestamp":1593879948830076,"geo":{"city":"Huntington Park","state":"CA"},"items":[{"coupon":"NEWBED10","item_id":"M_STAN_Q","item_name":"Standard Queen Mattress","item_revenue_in_usd":940.5,"price_in_usd":1045.0,"quantity":1},{"coupon":"NEWBED10","item_id":"P_DOWN_S","item_name":"Standard Down Pillow","item_revenue_in_usd":107.10000000000001,"price_in_usd":119.0,"quantity":1}],"traffic_source":"email","user_first_touch_timestamp":1593583891412316,"user_id":"UA000000106459577"}
 -- MAGIC """
@@ -96,7 +97,7 @@ SELECT * FROM parsed_events
 -- MAGIC     .select(from_json("value", schema_of_json(json_string)).alias("json"))
 -- MAGIC     .select("json.*")
 -- MAGIC )
--- MAGIC 
+-- MAGIC
 -- MAGIC display(parsed_eventsDF)
 
 -- COMMAND ----------
@@ -106,7 +107,7 @@ SELECT * FROM parsed_events
 -- MAGIC Spark SQL tem um número de funções para manipular dados array, incluindo:
 -- MAGIC - **`explode()`** separa os elementos de um array em várias linhas. Isto cria uma nova linha para cada elemento
 -- MAGIC - **`size()`** fornece uma contagem para o número de elementos no array para cada linha.
--- MAGIC 
+-- MAGIC
 -- MAGIC O código a seguir, separa o campo **`items`** (um array de structs) em várias linhas e mostra eventos contendo arrays com 3 ou mais itens.
 
 -- COMMAND ----------
@@ -121,11 +122,11 @@ SELECT * FROM exploded_events WHERE size(items) > 2
 
 -- MAGIC %python
 -- MAGIC from pyspark.sql.functions import explode, size
--- MAGIC 
+-- MAGIC
 -- MAGIC exploded_eventsDF = (parsed_eventsDF
 -- MAGIC     .withColumn("item", explode("items"))
 -- MAGIC )
--- MAGIC 
+-- MAGIC
 -- MAGIC display(exploded_eventsDF.where(size("items") > 2))
 
 -- COMMAND ----------
@@ -147,9 +148,9 @@ GROUP BY user_id
 -- COMMAND ----------
 
 -- MAGIC %python
--- MAGIC 
+-- MAGIC
 -- MAGIC from pyspark.sql.functions import array_distinct, collect_set, flatten
--- MAGIC 
+-- MAGIC
 -- MAGIC display(exploded_eventsDF
 -- MAGIC     .groupby("user_id")
 -- MAGIC     .agg(collect_set("event_name").alias("event_history"),
@@ -181,13 +182,13 @@ SELECT * FROM item_purchases
 -- MAGIC     .table("sales")
 -- MAGIC     .withColumn("item", explode("items"))
 -- MAGIC )
--- MAGIC 
+-- MAGIC
 -- MAGIC itemsDF = spark.table("item_lookup")
--- MAGIC 
+-- MAGIC
 -- MAGIC item_purchasesDF = (exploded_salesDF
 -- MAGIC     .join(itemsDF, exploded_salesDF.item.item_id == itemsDF.item_id)
 -- MAGIC )
--- MAGIC 
+-- MAGIC
 -- MAGIC display(item_purchasesDF)
 
 -- COMMAND ----------
@@ -197,7 +198,7 @@ SELECT * FROM item_purchases
 -- MAGIC Podemos usar **`PIVOT`** para visualizar dados de diferentes perspectivas rotacionando valores exclusivos em uma coluna dinâmica específica em várias colunas com base em uma função agregada.
 -- MAGIC - A cláusula **`PIVOT`** segue o nome da tabela ou a subconsulta especificada na cláusula **`FROM`**, que é a entrada para a tabela pivot
 -- MAGIC - Valores únicos na coluna pivot são agrupados e agregados usando a expressão agregada fornecida, criando uma coluna separada para cada valor único na tabela pivot resultante
--- MAGIC 
+-- MAGIC
 -- MAGIC O código da célula a seguir usa **`PIVOT`** para nivelar as informações de compra do item contidas em vários campos derivados do conjunto de dados **`sales`**. Esse formato de dados nivelado pode ser útil para dashboards, mas também para aplicar algoritmos de marchine learning para inferência ou previsão.
 
 -- COMMAND ----------

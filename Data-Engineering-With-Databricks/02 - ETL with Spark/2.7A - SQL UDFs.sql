@@ -14,10 +14,10 @@
 
 -- MAGIC %md
 -- MAGIC ###UDFs
--- MAGIC As funções definidas pelo usuário (UDFs) em Spark SQL permitem que você registre uma lógica SQL personalizada como functions em um banco de dados, tornando este método reutilizável em qualquer lugar onde o SQL possa ser executado no Databricks. Essas funções são registradas nativamente no SQL e matem todas as otimizações do Spark ao aplicar a lógica personalizada a grandes conjuntos de dados.
--- MAGIC 
+-- MAGIC As funções definidas pelo usuário (UDFs) em Spark SQL permitem que você registre uma lógica SQL personalizada como functions em um banco de dados, tornando este método reutilizável em qualquer lugar onde o SQL possa ser executado no Databricks. Essas funções são registradas nativamente no SQL e mantêm todas as otimizações do Spark ao aplicar a lógica personalizada a grandes conjuntos de dados.
+-- MAGIC
 -- MAGIC No mínimo, a criação de um SQL UDF requer um nome para a função, parâmetros opcionais, o tipo a ser retornado e alguma lógica personalizada.
--- MAGIC 
+-- MAGIC
 -- MAGIC A seguir, uma amostra de uma function chamada **`sale_announcement`** que tem **`item_name`** e **`item_price`** como parâmetros. Ela retorna uma string que anuncia a venda de um item a 80% de seu preço original.
 
 -- COMMAND ----------
@@ -41,7 +41,7 @@ SELECT *, sale_announcement(name, price) AS message FROM item_lookup
 -- MAGIC - Persiste entre o ambiente de execução (que pode incluir notebooks, DBSQL queries e jobs)
 -- MAGIC - Existe como objetos no metastore e são governadas pelas mesmas ACLs como tabelas, databases ou views
 -- MAGIC - Exige permissão **`USAGE`** e **`SELECT`** para usar a SQL UDF
--- MAGIC 
+-- MAGIC
 -- MAGIC Podemos usar **`DESCRIBE FUNCTION`** para vê onde uma function foi registrada e informações básicas sobre entradas esperadas e o que é retornado (e ainda mais informações com **`DESCRIBE FUNCTION EXTENDED`**) 
 
 -- COMMAND ----------
@@ -58,7 +58,7 @@ DESCRIBE FUNCTION EXTENDED sale_announcement
 -- MAGIC %md
 -- MAGIC ###Funções de fluxo de controle simples
 -- MAGIC Combinando SQL UDFs com fluxo de controle na forma de cláusulas **`CASE`** / **`WHEN`** fornece execução otimizada para fluxos de controle em cargas de trabalho SQL. O padrão SQL de construção sintática **`CASE`** / **`WHEN`** permite a avaliação de várias declarações condicionais com resultados alternativos com base no conteúdo da tabela.
--- MAGIC 
+-- MAGIC
 -- MAGIC Aqui, demonstramos o envolvimento dessa lógica de fluxo de controle em uma função que será reutilizável em qualquer lugar em que possamos executar o SQL.
 
 -- COMMAND ----------
@@ -78,6 +78,8 @@ SELECT *, item_preference(name, price) FROM item_lookup
 
 -- MAGIC %md
 -- MAGIC Embora os exemplos fornecidos aqui sejam simples, estes mesmo princípios básicos podem ser usados para adicionar cálculos personalizados e lógicas para execução nativa no Spark SQL.
+-- MAGIC
+-- MAGIC
 
 -- COMMAND ----------
 

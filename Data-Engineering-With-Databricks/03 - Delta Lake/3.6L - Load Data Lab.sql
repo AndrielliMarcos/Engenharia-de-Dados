@@ -2,11 +2,11 @@
 -- MAGIC %md
 -- MAGIC # Carregar Dados - Lab
 -- MAGIC Neste laboratório iremos carregar dados para tabelas Deltas novas e existentes.
--- MAGIC 
+-- MAGIC
 -- MAGIC ###Objetivo
 -- MAGIC - Criar uma tabela Delta vazia com um schema fornecido
 -- MAGIC - Inserir registros de uma tabela existente para uma tabela Delta
--- MAGIC - Usar a indtrução CTAS para criar uma tabela Delta de arquivos
+-- MAGIC - Usar a instrução CTAS para criar uma tabela Delta de arquivos
 
 -- COMMAND ----------
 
@@ -17,9 +17,9 @@
 -- MAGIC %md
 -- MAGIC ###Visão Geral dos Dados
 -- MAGIC Iremos trabalhar com uma amostra de dados Kafka brutos escritos como arquivos JSON.
--- MAGIC 
+-- MAGIC
 -- MAGIC Cada arquivo contém todos os registros consumidos durante um intervalo de 5 segundos, armazenados com o schema Kafka completo como um arquivo JSON de vários registros.
--- MAGIC 
+-- MAGIC
 -- MAGIC O schema para esta tabela:
 -- MAGIC | field  | type | description |
 -- MAGIC | ------ | ---- | ----------- |
@@ -59,7 +59,7 @@ CREATE TABLE IF NOT EXISTS events_raw
 
 -- MAGIC %md
 -- MAGIC ### Inserir eventos brutos na tabela Delta
--- MAGIC Assim que os dados extraídos e a tabela Delta estiverem prontos, insira os registros da tabela **`events_json`** na nova tabela **`events_raw`**.
+-- MAGIC Assim que os dados forem extraídos e a tabela Delta estiverem prontos, insira os registros da tabela **`events_json`** na nova tabela **`events_raw`**.
 
 -- COMMAND ----------
 
@@ -70,7 +70,7 @@ SELECT * FROM events_json
 -- COMMAND ----------
 
 -- MAGIC %md
--- MAGIC Revise manualmente o conteúdo da tabela para garantir que ps dados foram escritos como esperado.
+-- MAGIC Revise manualmente o conteúdo da tabela para garantir que os dados foram escritos como esperado.
 
 -- COMMAND ----------
 
@@ -93,8 +93,8 @@ SELECT * FROM events_raw
 -- MAGIC %md
 -- MAGIC ###Criar uma tabela Delta a partir do resultado de uma consulta
 -- MAGIC Além dos novos dados de eventos, vamos também carregar uma pequena tabela de pesquisa que fornece detalhes do produto que usaremos posteriormente no curso. 
--- MAGIC 
--- MAGIC Use uma istrução CTAS para criar uma tabela Delta gerenciada chamada **`item_lookup`** que extrai dados do diretório parquet fornecido abaixo.
+-- MAGIC
+-- MAGIC Use uma instrução CTAS para criar uma tabela Delta gerenciada chamada **`item_lookup`** que extrai dados do diretório parquet fornecido abaixo.
 
 -- COMMAND ----------
 

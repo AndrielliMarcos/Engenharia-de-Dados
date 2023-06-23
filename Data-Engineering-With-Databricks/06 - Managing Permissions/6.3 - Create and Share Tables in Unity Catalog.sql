@@ -11,7 +11,7 @@
 -- MAGIC %md
 -- MAGIC ###Configurar
 -- MAGIC Para evitar conflitos em um ambiente de treinamento compartilhado, ao executar a célula abaixo, irá gerar um nome de catálogo exclusivo para seu uso exclusivo.
--- MAGIC 
+-- MAGIC
 -- MAGIC Em seu próprio ambiente, covê é livre para escolher seus próprios nomes de catálogo, mas tome cuidado para não afetar outros usuários e sistemas nesse ambiente.
 
 -- COMMAND ----------
@@ -23,14 +23,14 @@
 -- MAGIC %md
 -- MAGIC ###Namespace de três níveis do Unity Catalog
 -- MAGIC A maioria dos desenvolvedores de SQL estará familiarizada com o uso de um namespace de dois níveis para endereçar tabelas de forma inequívoca dentro de um schema da seguinte maneira:
--- MAGIC 
+-- MAGIC
 -- MAGIC     SELECT * FROM schema.table;
 -- MAGIC O Unity Catalog apresenta o conceito de um catálogo que reside acima do schema na hierarquia de objetos. Metastores podem hospedar qualquer número de catálogos, que por sua vez podem hospedar qualquer número de schemas. Para lidar com esse nível adicional, as referências de tabela completas no Unity Vatalog usam im namespace de três níveis.
--- MAGIC 
+-- MAGIC
 -- MAGIC     SELECT * FROM catalog.schema.table;
--- MAGIC 
+-- MAGIC
 -- MAGIC Os desenvolvedores SQL provavelmente também estarão familiarizados com a instrução **`USE`** para selecionar um schema padrão, para evitar sempre especificar um schema ao fazer referência a tabelas. O Unity Catalog aumenta isso com a instrução **`USE CATALOG`**, que também seleciona um catálogo padrão.
--- MAGIC 
+-- MAGIC
 -- MAGIC Para simplificar sua experiência, garantimos que o catálogo foi criado e o definimos como padrão, conforme você pode ver no comando a seguir.
 
 -- COMMAND ----------
@@ -57,9 +57,9 @@ SELECT current_database()
 -- MAGIC Vamos criar e popular uma coleção simples de schemas e tabelas de acordo com a arquitetura Delta:
 -- MAGIC - um schema *silver* contendo dados de frequência cardíaca do paciente lidos de um dispositivo médico
 -- MAGIC - um schema *gold* que calcula a média dos dados de frequência cardíaca por paciente diariamente
--- MAGIC 
+-- MAGIC
 -- MAGIC Por enquanto, não haverá tabela *bronze* neste exmplo simples.
--- MAGIC 
+-- MAGIC
 -- MAGIC Observe que precisamos apenas especificar o nome da tabela abaixo, pois definimos um catálogo e schema padrão acima.
 
 -- COMMAND ----------
@@ -103,11 +103,11 @@ SELECT * FROM patient_gold.heartrate_stats;
 -- MAGIC %md
 -- MAGIC ###Conceder acesso ao schema gold [opcional]
 -- MAGIC Agora vamos permitir que usuários do grupo **analysts** leiam do schema **gold**.
--- MAGIC 
+-- MAGIC
 -- MAGIC Observe que você só pode executar esta seção se tiver seguindo o exercício *Gerenciar usuários e grupos* e criado um grupo no Unity Catalog chamado **analysts**.
--- MAGIC 
+-- MAGIC
 -- MAGIC Execute esta seção descomentando as céluas de código e executando-as em sequência. Você também será solicitado a executar algumas consultas como um usuário secundário.
--- MAGIC 
+-- MAGIC
 -- MAGIC Para fazer isso:
 -- MAGIC 1. Abra uma sessão de navegação privada separada e faça login no Databricks SQL usando a ID de usuário que você criou ao executar *Gerenciar usuários e grupos* 
 -- MAGIC 1. Crie um terminal SQL seguindo as instruções em *Criar terminal SQL no Unity Catalog*
@@ -127,7 +127,7 @@ GRANT SELECT ON TABLE patient_gold.heartrate_stats to `analysts`
 -- MAGIC %md
 -- MAGIC ###Consultar tabelas
 -- MAGIC Com uma concessão **SELECT** em vigor, tente consultar a tabela no ambiente Databricks SQL do seu usuário secundário.
--- MAGIC 
+-- MAGIC
 -- MAGIC Execute a célula a seguir para gerar uma instrução de consulta que lê da tabela *gold*. Copie e cole a saída em uma nova consulta no ambiente SQL de seu usuário secundário e execute a consulta.
 
 -- COMMAND ----------
@@ -153,6 +153,7 @@ GRANT USAGE ON SCHEMA patient_gold TO `analysts`
 
 -- MAGIC %md
 -- MAGIC ###Explore as GRANTS
+-- MAGIC
 
 -- COMMAND ----------
 
@@ -175,7 +176,7 @@ SHOW GRANT ON TABLE ${DA.catalog_name}.patient_silver.heartrate
 
 -- MAGIC %md
 -- MAGIC Atualmente não há grants nesta tabela, somente o proprietário pode acessar esta tabela.
--- MAGIC 
+-- MAGIC
 -- MAGIC Agora vamos ver o schema que o contém.
 
 -- COMMAND ----------
@@ -186,7 +187,7 @@ SHOW GRANT ON SCHEMA ${DA.catalog_name}.patient_silver
 
 -- MAGIC %md
 -- MAGIC Atualmente, vemos a grant **USAGE** que configuramos anteriormente.
--- MAGIC 
+-- MAGIC
 -- MAGIC Agora vamos examinar o catálogo.
 
 -- COMMAND ----------

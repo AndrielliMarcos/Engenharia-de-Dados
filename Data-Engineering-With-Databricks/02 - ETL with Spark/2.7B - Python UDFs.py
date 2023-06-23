@@ -70,8 +70,8 @@ display(sales_df.select(first_letter_udf(col("email"))))
 
 # MAGIC %md
 # MAGIC ###Use Python Decorator Syntax
-# MAGIC Alternativamente, você pode defibir e registrar uma UDF usando <a href="https://realpython.com/primer-on-python-decorators/" target="_blank">Python decorator syntax</a>. O parâmetro **`@udf`** é o tipo de dados da coluna que a função retorna.
-# MAGIC 
+# MAGIC Alternativamente, você pode definir e registrar uma UDF usando <a href="https://realpython.com/primer-on-python-decorators/" target="_blank">Python decorator syntax</a>. O parâmetro **`@udf`** é o tipo de dados da coluna que a função retorna.
+# MAGIC
 # MAGIC Você não será mais capaz de chamar a função Python local (i.e., **`first_letter_udf("annagray@kaufman.com")`**).
 
 # COMMAND ----------
@@ -92,6 +92,7 @@ display(sales_df.select(first_letter_udf(col("email"))))
 
 # MAGIC %md
 # MAGIC ###Usando Pandas UDF
+# MAGIC
 
 # COMMAND ----------
 
