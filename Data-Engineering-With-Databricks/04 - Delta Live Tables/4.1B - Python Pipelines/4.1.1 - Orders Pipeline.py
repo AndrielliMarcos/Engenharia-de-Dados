@@ -75,19 +75,19 @@ source = spark.conf.get("source")
 
 # MAGIC %md
 # MAGIC ###Ingestão de Streaming com Auto Loader
-# MAGIC O Databricks desenvolveu a funcionalidade Auto Loader para fornecer execução otimizada para carregar dados de forma incremental do armazenamento de objetos em nuvem no Delta Lake. Usar o Auto Loader com DLT é simples: basta configurar um diretório de dados de origem, fornecer alguma definições de configuração e escrever uma consulta no dados de origem. O Auto Loader detectará automaticamente novos arquivos de dados à medida que eles chegarem ao local de armazenamento de objetos na nuvem de origem, processando de forma incremental novos registros sem a necessidade de executar varreduras caras e recalcular resultados para conjuntos de dados em crescimento infinito.
+# MAGIC O Databricks desenvolveu a funcionalidade Auto Loader para fornecer execução otimizada para carregar dados de forma incremental do armazenamento de objetos em nuvem no Delta Lake. Usar o Auto Loader com DLT é simples: basta configurar um diretório de dados de origem, fornecer algumas definições de configuração e escrever uma consulta nos dados de origem. O Auto Loader detectará automaticamente novos arquivos de dados à medida que eles chegarem ao local de armazenamento de objetos na nuvem de origem, processando de forma incremental novos registros sem a necessidade de executar varreduras caras e recalcular resultados para conjuntos de dados em crescimento infinito.
 # MAGIC
-# MAGIC O Auto Loader pode ser combinado com APIs de Srteaming estruturado para realizar ingestão de dados incremental em Databricks definindo a configuração **`format("cloudFiles")`**. No DLT, você definirá apenas as configurações associadas à leitura de dados, observando que os locais para inferência e evolução do esquema também serão configurados automaticamente se essas configurações estiverem habilitadas.
+# MAGIC O Auto Loader pode ser combinado com APIs de Streaming estruturado para realizar ingestão de dados incremental em Databricks definindo a configuração **`format("cloudFiles")`**. No DLT, você definirá apenas as configurações associadas à leitura de dados, observando que os locais para inferência e evolução do esquema também serão configurados automaticamente se essas configurações estiverem habilitadas.
 # MAGIC
 # MAGIC A consulta abaixo retorna um DataFrame de streaming de uma fonte configurada com o Auto Loader.
 # MAGIC
 # MAGIC Além de passar **`cloudFiles`** como formato, especificamos aqui:
 # MAGIC * Uma option **`cloudFiles.format`** como **`json`** (isso indica o formato dos arquivos no local de armazenamento do objeto na nuvem)
-# MAGIC * Uma option **`cloudFiles.inferColumnTypes`** como **`True`** (para detectar os yipos de cada coluna)
+# MAGIC * Uma option **`cloudFiles.inferColumnTypes`** como **`True`** (para detectar os tipos de cada coluna)
 # MAGIC * Uma path do armazenamento do objeto na nuvem para o método **`load`** 
 # MAGIC * Uma instrução select que inclui alguns **`pyspark.sql.functions`** para enriquecer os dados ao lado de todos os campos de origem
 # MAGIC
-# MAGIC Por padrão, **`@dlt.table`** irá usar o nome da função com o nome da tabela destino.
+# MAGIC Por padrão, **`@dlt.table`** irá usar o nome da função como nome da tabela destino.
 
 # COMMAND ----------
 
@@ -118,15 +118,15 @@ def orders_bronze():
 # MAGIC Existe um <a href="https://docs.databricks.com/data-engineering/delta-live-tables/delta-live-tables-python-ref.html#create-table" target="_blank">número de options</a> que pode ser especificado durante a criação de uma tabela. Aqui, usamos duas dessas para anotar nosso conjunto de dados.
 # MAGIC
 # MAGIC ##### **`comment`**
-# MAGIC Os comentários da tabela são um padrão para bancos de dados relacionais. Eles podem ser usados para fornecer informações úteis aos usuários em toda a organização. Neste exemplo, escrevemos uma breve descrição legível da tabela que descreve como os dados estão sendo ingeridos e aplicados (o que também pode ser obtido da revisão de outros netadados da tabela).
+# MAGIC Os comentários da tabela são um padrão para bancos de dados relacionais. Eles podem ser usados para fornecer informações úteis aos usuários em toda a organização. Neste exemplo, escrevemos uma breve descrição legível da tabela que descreve como os dados estão sendo ingeridos e aplicados (o que também pode ser obtido da revisão de outros metadados da tabela).
 # MAGIC
 # MAGIC ##### **`table_properties`**
-# MAGIC Este campo pode ser usado para passar qualquer número de paras chave/valor para marcação personalizada de dados. Aqui, definimos o valor **`silver`** para a chave **`quality`**.
+# MAGIC Este campo pode ser usado para passar qualquer número de pares chave/valor para marcação personalizada de dados. Aqui, definimos o valor **`silver`** para a chave **`quality`**.
 # MAGIC
-# MAGIC Observe que embora este campo permita que tags personalizadas sejam definidas arbritariamente, ele também é usado para definir várias configurações que controlam o desempenho de uma tabela. Ao revisar os detalhes da tabela, você também pode encontrar várias configurações que são ativadas por padrão sempre que uma tabela é criada.
+# MAGIC Observe que embora este campo permita que tags personalizadas sejam definidas arbitrariamente, ele também é usado para definir várias configurações que controlam o desempenho de uma tabela. Ao revisar os detalhes da tabela, você também pode encontrar várias configurações que são ativadas por padrão sempre que uma tabela é criada.
 # MAGIC
 # MAGIC ### Data Quality Constraints
-# MAGIC A versão Python do DLT usa funções de decorador para definir restrições de qualidade de dados. Vremos vários deles ao longo do curso.
+# MAGIC A versão Python do DLT usa funções de decorador para definir restrições de qualidade de dados. Veremos vários deles ao longo do curso.
 # MAGIC
 # MAGIC O DLT usa instruções booleanas simples para permitir verificações de imposições de qualidade nos dados. Na declaração abaixo, nós:
 # MAGIC - Declaramos uma constraint chamada **`valid_date`**
@@ -169,13 +169,13 @@ def orders_silver():
 # MAGIC Abaixo estão algumas das diferenças entre esses tipos de tabelas:
 # MAGIC
 # MAGIC ####Live tables
-# MAGIC - sempre "correta", o que signifiva que seu conteúdo corresponderá à sua definição após qualquer atualização
+# MAGIC - sempre "correta", o que significa que seu conteúdo corresponderá à sua definição após qualquer atualização
 # MAGIC - retorna os mesmos resultados como se a tabela tivesse acabado de ser definida pela primeira vez em todos os dados
 # MAGIC - não deve ser modificada por operações externas ao pipeline DLT (você obterá respostas indefinidas ou sua alteração será desfeita)
 # MAGIC
 # MAGIC ####Streaming Live Tables
 # MAGIC - oferece suporte apenas à leitura de fontes de streaming "somente anexadas"
-# MAGIC - lê cada lote de entrada apenas uma vez, não importa o que aconteça (mesmo se as dimensões unidas mudarem ou se a definição da consulta mudas, etc)
+# MAGIC - lê cada lote de entrada apenas uma vez, não importa o que aconteça (mesmo se as dimensões unidas mudarem ou se a definição da consulta mudar, etc)
 # MAGIC - pode executar operações na tabela fora do pipeline DLT gerenciado (acrescentar dados, executar GDPR, etc)
 
 # COMMAND ----------

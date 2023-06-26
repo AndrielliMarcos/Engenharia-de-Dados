@@ -50,8 +50,9 @@ DA.print_pipeline_config(pipeline_language)
 # MAGIC     1. Clique no botão **Add configuration**
 # MAGIC     1. No vampo **Key**, digite a palavra "**source**"
 # MAGIC     1. No campo **Value**, digite o valor **Source** especificado na célula acima
+# MAGIC     * Neste exemplo, o source é a path da origem dos nossos dados
 # MAGIC 1. No campo **Storage location**, digite o valor especificado na célula acima
-# MAGIC     * Este campo opcional permite que o usuário especifique um local para armazenar logs, tabelas e outras informações relacionadas à execução do pipeline. Se não for especificado, o DLT gerará automaticamente um diretório
+# MAGIC     * Este campo opcional permite que o usuário especifique um **local para armazenar logs, tabelas e outras informações** relacionadas à execução do pipeline. Se não for especificado, o DLT gerará automaticamente um diretório
 # MAGIC 1. Defina o **Pipeline Mode** para **Triggered**.
 # MAGIC     * Este campo especifica como o pipeline será executado
 # MAGIC     * **Triggered** os pipelines são executados uma vez e, em seguida, encerrados até a próxima atualização manual ou agendada.
