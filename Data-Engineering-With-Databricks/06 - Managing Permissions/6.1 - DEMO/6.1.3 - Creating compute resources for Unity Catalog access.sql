@@ -1,16 +1,16 @@
 -- Databricks notebook source
 -- MAGIC %md
--- MAGIC ##Criando fontes de computação (compute sources) para acesso ao Unity Catalog
--- MAGIC Nesta demosntração, você aprenderá como: 
+-- MAGIC ##Criando clusters (compute sources) para acesso ao Unity Catalog
+-- MAGIC Nesta demonstração, você aprenderá como: 
 -- MAGIC - Configurar um cluster para acesso ao Unity Catalog
--- MAGIC - Configurar um warehouse SQL para acessar o Unity Catalog
+-- MAGIC - Configurar um SQL warehouse para acessar o Unity Catalog
 -- MAGIC - Usar o Data Explorer para navegar pelos namespace de três níveis do Unity Catalog
 
 -- COMMAND ----------
 
 -- MAGIC %md
 -- MAGIC ### Visão Geral
--- MAGIC Antes do Unity Catalog, uma solução completa de governança de dados exigia uma configuração cuidadosa das configurações do workspace, listas de controle de acesso e configurações de políticas d cluster. Era um sistema cooperativo que, se não for configurado corretamente, poderia permitir que os usuários contornassem completamente o controle de acesso.
+-- MAGIC Antes do Unity Catalog, uma solução completa de governança de dados exigia uma configuração cuidadosa das configurações do workspace, listas de controle de acesso e configurações de políticas do cluster. Era um sistema cooperativo que, se não for configurado corretamente, poderia permitir que os usuários contornassem completamente o controle de acesso.
 -- MAGIC
 -- MAGIC Embora o Unity Catalog apresente algumas novas configurações, o sistema não requer nenhuma configuração específica para ser seguro. Sem as configurações adequadas, os clusters não poderão acessar nenhum dado protegido, tornando o Unity Catalog seguro por padrão. Isso, juntamente com seu controle e auditoria aprimorados e refinados, torna o Unity Catalog uma solução de governança de dados segnificativamente evoluída.
 
@@ -65,13 +65,13 @@
 -- MAGIC %md
 -- MAGIC ###Explorar os dados usando um notebook
 -- MAGIC 1. Vamos criar um novo notebook SQL no workspace para executar um teste. Vamos anexar o notebook em um cluster que criamos
--- MAGIC 1. Criar uma nova célula com a sonsulta `SHOW GRANTS ON SCHEMA main.default` e executá-la
+-- MAGIC 1. Criar uma nova célula com a consulta `SHOW GRANTS ON SCHEMA main.default` e executá-la
 
 -- COMMAND ----------
 
 -- MAGIC %md
 -- MAGIC ###Databricks SQL
--- MAGIC SQL warehouses são os outros meios principais para acessar seus dados, pois são os recursos de computação responsáveis por executar suas consultas SQL Databricks. Se você desejar habilitar a conectividade com ferramentas exeternas de BI, também precisará canalizá-las por meio de um SQL warehouse.
+-- MAGIC SQL warehouses são os outros meios principais para acessar seus dados, pois são os recursos de computação responsáveis por executar suas consultas SQL Databricks. Se você desejar habilitar a conectividade com ferramentas externas de BI, também precisará canalizá-las por meio de um SQL warehouse.
 
 -- COMMAND ----------
 

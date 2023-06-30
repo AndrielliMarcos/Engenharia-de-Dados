@@ -11,7 +11,7 @@
 -- MAGIC %md
 -- MAGIC ###Configurar
 -- MAGIC Execute a célula a seguir para fazer algumas configurações. Para evitar conflitos em um ambiente de treinamento compartilhado, isso irá criar um database com nome exclusivo para o seu uso.. Isso também irá criar uma tabela de exemplo chamada **silver** dentro do metastore do Unity Catalog.
--- MAGIC 
+-- MAGIC
 -- MAGIC Observação: este notebook assume um catálogo chamado *main* em seu metastore do Unity Catalog. Se você precisar direcionar para um catálogo diferente, edite o notebook em **Classroom-Setup**.
 
 -- COMMAND ----------
@@ -22,7 +22,7 @@
 
 -- MAGIC %md
 -- MAGIC Vamos examinar o conteúdo da tabela **silver**.
--- MAGIC 
+-- MAGIC
 -- MAGIC Observação: como parte da configuração, um catálogo e um database padrão foram selecionados, portanto precisamos especificar somente os nomes da tabelas e views sem níveis adicionais.
 
 -- COMMAND ----------
@@ -64,10 +64,10 @@ SHOW GRANT ON TABLE silver
 -- MAGIC %md
 -- MAGIC ###Conceder acesso à view [opcional]
 -- MAGIC Com uma nova view em vigor, vamos permitir que os usuários do grupo *analysts* a consultem.
--- MAGIC 
+-- MAGIC
 -- MAGIC Observe que você só pode executar esta seção se tiver seguido o exercício *Gerenciar usuários e grupos* e criado um grupo no Unity Catalog chamado *analysts*.
--- MAGIC 
--- MAGIC Execute esta seção descomentando as céluas de código e executando-as em sequência. Você també será solicitado a executar algumas consultas como um usuário secundário. 
+-- MAGIC
+-- MAGIC Execute esta seção descomentando as céluas de código e executando-as em sequência. Você também será solicitado a executar algumas consultas como um usuário secundário. 
 -- MAGIC Para fazer isso:
 -- MAGIC 1. Abra uma sessão de navegação privada separada e faça login no Databricks SQL usando a ID de usuário que você criou ao executar *Gerenciar usuários e grupos* 
 -- MAGIC 1. Crie um terminal SQL seguindo as instruções em *Criar terminal SQL no Unity Catalog*
@@ -98,7 +98,7 @@ SHOW GRANT ON TABLE silver
 -- MAGIC %md
 -- MAGIC ###Consultar a view como usuário
 -- MAGIC Com os acessos apropriados em vigor, tente consultar a view no ambiente Databricks SQL do seu usuário secundário.
--- MAGIC 
+-- MAGIC
 -- MAGIC Execute a célula a seguir para gerar uma instrução de consulta que lê da view. Copie e cole a saída em uma nova consulta no ambiente SQL de seu uau´srio secundário e execute a consulta.
 
 -- COMMAND ----------
@@ -109,10 +109,10 @@ SHOW GRANT ON TABLE silver
 -- COMMAND ----------
 
 -- MAGIC %md
--- MAGIC Observe que a consulta foi bem-suvedida e a saída é idêntica à saída acima, conforme esperado.
--- MAGIC 
+-- MAGIC Observe que a consulta foi bem-sucedida e a saída é idêntica à saída acima, conforme esperado.
+-- MAGIC
 -- MAGIC Agora substitua **`gold_dailyavg`** por **`silver`** e execute novamente a consulta. Observe que a consulta agora falha. Isso ocorre porque o usuário não tem privilégio **SELECT** na tabela **`silver`**.
--- MAGIC 
+-- MAGIC
 -- MAGIC Lembre-se porém que **`gold_dailyavg`** é uma view que seleciona da **`silver`**. Então como a consulta **`gold_dailyavg`** pode ser bem-secedida? O Unity Catalog permite que a consulta passe porque o proprietário dessa view tem privilégio **SELECT** em **`silver`**. Esta é uma propriedade importante, pois nos permite implementar views que podem filtrar ou mascarar linhas ou colunas de uma tabela, sem permitir acesso direto à tabela subjacente que estamos tentando proteger. Veremos esse mecanismo em ação a seguir.
 
 -- COMMAND ----------
@@ -122,19 +122,19 @@ SHOW GRANT ON TABLE silver
 -- MAGIC As views dinâmicas nos permitem configurar um controle de acesso mais refinado, incluindo:
 -- MAGIC - segurança a nível de linhas e colunas
 -- MAGIC - mascaramento de dados
--- MAGIC 
+-- MAGIC
 -- MAGIC O controle de acesso é obtido através do uso de funções dentro da definição da view. Essa funções incluem:
 -- MAGIC * **`current_user()`**: retorna o endereço de email do usuário atual
 -- MAGIC * **`is_account_group_member()`**: retorna TRUE se o usuário atual é membro do grupo especificado 
--- MAGIC 
--- MAGIC Observação: para compatibilidade herdada, também existe a função **`is_member()`** que retorna TRUE se o usuário atual for membro do grupo a nível do workspace especificado. Evite usar ess função ao implementar views dinâmicas no Unity Catalog.
+-- MAGIC
+-- MAGIC Observação: para compatibilidade herdada, também existe a função **`is_member()`** que retorna TRUE se o usuário atual for membro do grupo a nível do workspace especificado. Evite usar essa função ao implementar views dinâmicas no Unity Catalog.
 
 -- COMMAND ----------
 
 -- MAGIC %md
 -- MAGIC ###Restringir colunas
 -- MAGIC Vamos aplicar **`is_account_group_member()`** para mascarar colunas contendo PII para membros do grupo de *analysts* por meio de instruções **CASE** dentro do **SELECT**.
--- MAGIC 
+-- MAGIC
 -- MAGIC Observação: este é um exemplo simples para alinhar com a configuração deste ambiente de treinamento. Em um sistema de produção, o método preferível seria restringir as linhas para usuários que não são membros de um grupo específico.
 
 -- COMMAND ----------
@@ -181,7 +181,7 @@ SELECT * FROM gold_dailyavg
 
 -- MAGIC %md
 -- MAGIC ###Restringir linhas
--- MAGIC Vamos agora aplicar **`is_account_group_member()`** para filtrar as linhas. Neste caso, criaremos uma nova view *gold* que retorna o timestamp e o valor da frequência cardíacam restritos aos membros do grupo *analysts*, para linhas cujo **device id** seja menor que 30. A filtragem de linha pode ser feita aplivando a condicional como uma cláusula **WHERE** no **SELECT**.
+-- MAGIC Vamos agora aplicar **`is_account_group_member()`** para filtrar as linhas. Neste caso, criaremos uma nova view *gold* que retorna o timestamp e o valor da frequência cardíacam restritos aos membros do grupo *analysts*, para linhas cujo **device id** seja menor que 30. A filtragem de linha pode ser feita aplicando a condicional como uma cláusula **WHERE** no **SELECT**.
 
 -- COMMAND ----------
 
@@ -216,9 +216,9 @@ SELECT * FROM gold_allhr
 -- MAGIC %md
 -- MAGIC ###Mascaramento de dados (Data masking)
 -- MAGIC Um caso de uso final para as views dinâmicas é mascarar dados. Ou seja, permitir a passagem de um subconjunto de dados, mas transformá-lo de forma que a totalidade do campo mascarado não possa ser deduzida.
--- MAGIC 
--- MAGIC Aqui, combinamos a abordagem de filtragem de linha e coluna para aumentar nossa filtragem de linha com o mascaramento de dados na view. Mas, em vez de substituir a voluna inteira pela string **REDACTED**, utilizamos a função de manipulação de string SQL para exibir os dois últimos dígitos do **mrn**, enquanto mascaramos o restante.
--- MAGIC 
+-- MAGIC
+-- MAGIC Aqui, combinamos a abordagem de filtragem de linha e coluna para aumentar nossa filtragem de linha com o mascaramento de dados na view. Mas, em vez de substituir a coluna inteira pela string **REDACTED**, utilizamos a função de manipulação de string SQL para exibir os dois últimos dígitos do **mrn**, enquanto mascaramos o restante.
+-- MAGIC
 -- MAGIC Dependendo de suas necessidades, o SQL fornece uma biblioteca bastante abrangente de funções de manipulação de strings que podem ser aproveitadas para mascarar dados de várias maneiras diferentes. A abordagem mostrada abaixo ilustra um exemplo simples disso.
 
 -- COMMAND ----------

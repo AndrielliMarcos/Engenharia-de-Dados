@@ -10,10 +10,10 @@
 
 -- MAGIC %md
 -- MAGIC ###Visão Geral
--- MAGIC Um metastpre é um contêiner de nível superior de objetos no modelo de segurança do Unity Catalog e gerencia metadados e listas de controle de acesso para seus objetos.
--- MAGIC 
--- MAGIC Os account admins (administradores de conta) criam o metastore e os atribuem a workspaces para permitir que cargas de trabalho nesses workspaces acessem os dados representados no metastore. Isso pode se feito no account console, por meio de APIs REST ou usando Terraform. Nesta demosntração, exploraremos a criação e o gerenciamento de metastores de forma interativa usando o account console.
--- MAGIC 
+-- MAGIC Um metastore é um contêiner de nível superior de objetos no modelo de segurança do Unity Catalog e gerencia metadados e listas de controle de acesso para seus objetos.
+-- MAGIC
+-- MAGIC Os account admins (administradores de conta) criam o metastore e os atribuem a workspaces para permitir que cargas de trabalho nesses workspaces acessem os dados representados no metastore. Isso pode se feito no account console, por meio de APIs REST ou usando Terraform. Nesta demonstração, exploraremos a criação e o gerenciamento de metastores de forma interativa usando o account console.
+-- MAGIC
 -- MAGIC Existem alguns recursos de nuvem subjacentes que devem ser configurados primeiro pelo administrador de nuvem para oferecer suporte ao metastore. Isso inclui:
 -- MAGIC - um contêiner de armazenamento em nuvem
 -- MAGIC - uma credencial de nuvem que permite o Databricks acessar o contêiner
@@ -41,7 +41,7 @@
 -- MAGIC 1. Especifique a path do contêiner de armazenamento em nuvem, conforme fornecido por seu administrador de nuvem. Os arquivos de dados da tabela gerenciada serão armazenados neste local.
 -- MAGIC 1. Especifique a credencial para acessar o contêiner de armazenamento, conforme fornecido por seu administrador de nuvem.
 -- MAGIC 1. Finalmente clique em **Create**
--- MAGIC 
+-- MAGIC
 -- MAGIC A partir daqui, podemos atribuir o metastore recém criado a qualquer workspace disponpivel nesta conta. Mas, por enquanto, vamos clicar em **Skip**, pois isso pode ser feito a qualquer momento no futuro.
 
 -- COMMAND ----------
@@ -57,7 +57,7 @@
 -- MAGIC %md
 -- MAGIC ###Gerenciando atribuições (assigments) de workspace
 -- MAGIC Para que os recursos de computação acessem um metastore, ele deve ser atribuído a um workspace. Observe as seguintes regras relacionadas à atribuição de metastore:
--- MAGIC - Um metastore deve estar localizado na mesma região que o espaço de trabalho
+-- MAGIC - Um metastore deve estar localizado na mesma região que o workspace
 -- MAGIC - Um metastore pode ser atribuído (assigned) a vários wokspaces (na mesma região)
 -- MAGIC - Um workspace pode ter apenas um metastore atribuído a qualquer momento
 
@@ -88,16 +88,16 @@
 -- MAGIC ###Transferindo a administração do metastore
 -- MAGIC Por padrão, o account admin que criou um metastore é o administrador do metastore. As responsabilidades do metastore admin são numerosas e incluem:
 -- MAGIC - Criar e atribuir permissões em catálogos
--- MAGIC - Criar e remover achemas, tabelas e views se outros usuários não tiverem permissão para fazê-lo de acordo com suas políticas de governança de dados
+-- MAGIC - Criar e remover schemas, tabelas e views se outros usuários não tiverem permissão para fazê-lo de acordo com suas políticas de governança de dados
 -- MAGIC - Integrar o armazenamento externo no metastore
 -- MAGIC - Configurar compartilhamentos com Delta Sharing
 -- MAGIC - Manutenção geral e tarefas administrativas em objetos de dados quando seus proprietários não são acessíveis. Por exemplo, tranferir a propriedade de um schema petencente a um usuário que deixou a organização.
--- MAGIC 
--- MAGIC Os account admins provavelmente já são indivíduos ocupados. Portanto, para evitar gargalos em seus processos de governança de dados, é importante conceder administração de metastore a um grupo para que qualquer pessoa do grupo possa assumir essa tarefas. À medida que as funções mudam, os usuários podem ser facilmente adicionados ou removidos desse grupo.
+-- MAGIC
+-- MAGIC Os account admins provavelmente já são indivíduos ocupados. Portanto, para evitar gargalos em seus processos de governança de dados, é importante conceder administração de metastore a um grupo para que qualquer pessoa do grupo possa assumir essas tarefas. À medida que as funções mudam, os usuários podem ser facilmente adicionados ou removidos desse grupo.
 -- MAGIC 1. N página **Data**, selecione o metastore alvo (usando o campo **Search** se desejar)
 -- MAGIC 1. Localize o campo **Owner** que exibe o administrador. Atualmente, este é o indivíduo na organização que criou originalmente o metastore.
 -- MAGIC 1. Selecione o link **Edit** à direita de **Owner**
 -- MAGIC 1. Escolha uma entidade que se tornará o novo administrador. Vamos usar o grupo *metastore_admins*
 -- MAGIC 1. Clique em **Save**
--- MAGIC 
+-- MAGIC
 -- MAGIC Agora qualquer pessoa desse grupo poderá realizar tarefas administrativas no metastore.

@@ -4,7 +4,7 @@
 -- MAGIC ###Objetivos
 -- MAGIC - Criar schemas e tabelas
 -- MAGIC - Controlar o acesso dos schema e tabelas
--- MAGIC - Emplorar *grants* em vários objetos no Unity Catalog
+-- MAGIC - Explorar *grants* em vários objetos no Unity Catalog
 
 -- COMMAND ----------
 
@@ -25,11 +25,11 @@
 -- MAGIC A maioria dos desenvolvedores de SQL estará familiarizada com o uso de um namespace de dois níveis para endereçar tabelas de forma inequívoca dentro de um schema da seguinte maneira:
 -- MAGIC
 -- MAGIC     SELECT * FROM schema.table;
--- MAGIC O Unity Catalog apresenta o conceito de um catálogo que reside acima do schema na hierarquia de objetos. Metastores podem hospedar qualquer número de catálogos, que por sua vez podem hospedar qualquer número de schemas. Para lidar com esse nível adicional, as referências de tabela completas no Unity Vatalog usam im namespace de três níveis.
+-- MAGIC O Unity Catalog apresenta o conceito de um catálogo que reside acima do schema na hierarquia de objetos. Metastores podem hospedar qualquer número de catálogos, que por sua vez podem hospedar qualquer número de schemas. Para lidar com esse nível adicional, as referências de tabelas completas no Unity Catalog usam um namespace de três níveis.
 -- MAGIC
 -- MAGIC     SELECT * FROM catalog.schema.table;
 -- MAGIC
--- MAGIC Os desenvolvedores SQL provavelmente também estarão familiarizados com a instrução **`USE`** para selecionar um schema padrão, para evitar sempre especificar um schema ao fazer referência a tabelas. O Unity Catalog aumenta isso com a instrução **`USE CATALOG`**, que também seleciona um catálogo padrão.
+-- MAGIC Os desenvolvedores SQL provavelmente também estarão familiarizados com a instrução **`USE`** para selecionar um schema padrão, para evitar sempre especificar um schema ao fazer referência as tabelas. O Unity Catalog aumenta isso com a instrução **`USE CATALOG`**, que também seleciona um catálogo padrão.
 -- MAGIC
 -- MAGIC Para simplificar sua experiência, garantimos que o catálogo foi criado e o definimos como padrão, conforme você pode ver no comando a seguir.
 
@@ -41,7 +41,7 @@ SELECT current_catalog(), current_database()
 
 -- MAGIC %md
 -- MAGIC ###Criar e usar um novo schema
--- MAGIC Vamos vriar um novo schema exclusivo para usarmos neste execício e, em seguida, defini-lo como padrão para que possamos fazer referência às tabelas apenas pelo nome.
+-- MAGIC Vamos criar um novo schema exclusivo para usarmos neste exercício e, em seguida, defini-lo como padrão para que possamos fazer referência às tabelas apenas pelo nome.
 
 -- COMMAND ----------
 
@@ -58,7 +58,7 @@ SELECT current_database()
 -- MAGIC - um schema *silver* contendo dados de frequência cardíaca do paciente lidos de um dispositivo médico
 -- MAGIC - um schema *gold* que calcula a média dos dados de frequência cardíaca por paciente diariamente
 -- MAGIC
--- MAGIC Por enquanto, não haverá tabela *bronze* neste exmplo simples.
+-- MAGIC Por enquanto, não haverá tabela *bronze* neste exemplo simples.
 -- MAGIC
 -- MAGIC Observe que precisamos apenas especificar o nome da tabela abaixo, pois definimos um catálogo e schema padrão acima.
 
@@ -162,7 +162,7 @@ SHOW GRANT ON TABLE ${DA.catalog_name}.patient_gold.heartrate_stats
 -- COMMAND ----------
 
 -- MAGIC %md
--- MAGIC Atualmente existe apenas a grant **SELECT** que confuguramos anteriormente. Agora vamos verificar as grants em **silver**
+-- MAGIC Atualmente existe apenas a grant **SELECT** que configuramos anteriormente. Agora vamos verificar as grants em **silver**
 
 -- COMMAND ----------
 

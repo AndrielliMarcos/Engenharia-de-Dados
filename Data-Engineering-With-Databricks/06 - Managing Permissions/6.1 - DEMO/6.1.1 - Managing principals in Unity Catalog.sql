@@ -10,7 +10,7 @@
 
 -- MAGIC %md
 -- MAGIC ###Visão Geral
--- MAGIC As identities do Databricks existem em dois níveis. Os usuários existentes do Databricks provavelmente estão familiarizados com as identities no vível do workspace, que foram e continuam sendo vinculadas às credenciais usadas para acessar os serviços do Databricks, como o workspace de Data Science e Engineering, Databricks SQL e Databricks Machine Learning. Antes do Unity Catalog, as identities em nível de conta tinham pouca relevância para a maioria dos usuários, pois essas identities eram usadas apenas para administrar a account (conta) do Databricks. Com a introdução do Unity Catalog e sua situação fora do workspace, fazia sentido enraizar as identities que ele usa no nível de account. Portanto, é importante entender a distinção entre esses dois níveis de identity e como gerenciar o relacionamento entre os dois.
+-- MAGIC As identities do Databricks existem em dois níveis. Os usuários existentes do Databricks provavelmente estão familiarizados com as identities no nível do workspace, que foram e continuam sendo vinculadas às credenciais usadas para acessar os serviços do Databricks, como o workspace de Data Science e Engineering, Databricks SQL e Databricks Machine Learning. Antes do Unity Catalog, as identities em nível de conta tinham pouca relevância para a maioria dos usuários, pois essas identities eram usadas apenas para administrar a account (conta) do Databricks. Com a introdução do Unity Catalog e sua situação fora do workspace, fazia sentido enraizar as identities que ele usa no nível de account. Portanto, é importante entender a distinção entre esses dois níveis de identity e como gerenciar o relacionamento entre os dois.
 -- MAGIC
 -- MAGIC As identities em nível de account, nas quais focamos nesta demontração, são gerenciadas por meio do account console do Databricks ou de suas APIs SCIM associadas. Nesta demonstração, vamos focar no uso do account console, mas veremos os pontos de integração para automatizar o gerenciamento de identities.
 
@@ -24,7 +24,7 @@
 
 -- MAGIC %md
 -- MAGIC ###Gerenciando usuários e service principals
--- MAGIC No Databricks, um **usuário** corresponde a um indivíduo que usa o sistema de forma interativa - ou seja, uma pessoa. O usuários são identificados através do endereço emails deles e autenticados usando esse endereço de email e uma senha que eles gerenciam. Os usuários interagem com a plataforma atrvés da inteface do usuário e eles também podem acessar a funcionalidade por meio de ferramentas de linha de comando e APIs REST. A prática recomendada determina que els gerem um token de acesso pessoal (PAT) para autenticar essas ferramentas.
+-- MAGIC No Databricks, um **usuário** corresponde a um indivíduo que usa o sistema de forma interativa - ou seja, uma pessoa. O usuários são identificados através do endereço de email deles e autenticados usando esse endereço de email e uma senha que eles gerenciam. Os usuários interagem com a plataforma através da inteface do usuário e eles também podem acessar a funcionalidade por meio de ferramentas de linha de comando e APIs REST. A prática recomendada determina que eles gerem um token de acesso pessoal (PAT) para autenticar essas ferramentas.
 -- MAGIC
 -- MAGIC Somente os poucos usuários que são administradores de conta realmente farão login na accont console. O restante fará login em um dos workspaces aos quais foram atribuídos. Porém, sua identity no nível da account ainda é crítica para permitir o acesso aos dados por meio do Unity Catalog.
 -- MAGIC
@@ -105,9 +105,9 @@
 
 -- MAGIC %md
 -- MAGIC ###Gerenciando Grupos
--- MAGIC O conceito de grupos é difundido em inúmeros modelos de segunça e por boa razões. Os grupos reúnem usuários individuais (e service principals) em unidades lógivas para simplificar o gerenciamento. Os grupos também podem ser aninhados dentro de outros grupos, se necessário. Quaiquer concessões no grupo são automaticamente herdadas por todos os membros do grupo.
+-- MAGIC O conceito de grupos é difundido em inúmeros modelos de segunça e por boas razões. Os grupos reúnem usuários individuais (e service principals) em unidades lógicas para simplificar o gerenciamento. Os grupos também podem ser aninhados dentro de outros grupos, se necessário. Quaisquer concessões no grupo são automaticamente herdadas por todos os membros do grupo.
 -- MAGIC
--- MAGIC As políticas de governança de dados são definidas em termos de funçõrs, e os grupos fornecem uma construção de gerenciamento de usuários que mapeia bem essas funções, simplificando a implementação dessa polítivas de governança. Dessa forma, as permissões podem ser concedidas a grupos de acordo com as polítivas de segurança de sua organização e os usuários podem ser adicionados a grupos de acordo com suas funções dentro da organização.
+-- MAGIC As políticas de governança de dados são definidas em termos de funções, e os grupos fornecem uma construção de gerenciamento de usuários que mapeia bem essas funções, simplificando a implementação dessas políticas de governança. Dessa forma, as permissões podem ser concedidas a grupos de acordo com as políticas de segurança de sua organização e os usuários podem ser adicionados a grupos de acordo com suas funções dentro da organização.
 -- MAGIC
 -- MAGIC Quando os usuários fazem a transição entre funções, é simples mover um usuário de um grupo para outro. Executar uma operação equivalente quando as permissões são conectadas no nível do usuário individual é significativamente mais intensivo. Da mesma forma, à medida que seu modelo de governança evolui e as definições de função mudam, é muito mais fácil efetuar essas alterações nos grupos em vez de replicar a alterações em vários usuários individuais.
 -- MAGIC
