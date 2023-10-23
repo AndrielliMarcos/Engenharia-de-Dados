@@ -1,10 +1,10 @@
 -- Databricks notebook source
 -- MAGIC %md
 -- MAGIC #Remodelagem de dados
--- MAGIC Neste laboratório vamos criar uma tabela chamada clickpaths que agrega o número de vezes que cada usuário realizou uma determinada ação em **`events`** e juntar essa informações com uma view **`transactions`** para criar um registro das ações e compras finais de cada usuário.
--- MAGIC 
+-- MAGIC Neste laboratório vamos criar uma tabela chamada clickpaths que agrega o número de vezes que cada usuário realizou uma determinada ação em **`events`** e juntar essaS informações com uma view **`transactions`** para criar um registro das ações e compras finais de cada usuário.
+-- MAGIC
 -- MAGIC A tabela clickpaths deve conter todos os campos da view transaction, assim como uma contagem de cada event_name da tabela events.
--- MAGIC 
+-- MAGIC
 -- MAGIC ###Objetivos
 -- MAGIC - Tabela Pivot e joins para criar o clickpaths de cada usuário
 
@@ -30,10 +30,10 @@
 -- MAGIC %md
 -- MAGIC ###Tabela pivot events para obter a contagem de eventos para cada usuário
 -- MAGIC Vamos começar criando uma tabela pivot a partir da tabela **`events`** para obter contagens para cada **`event_name`**.
--- MAGIC 
+-- MAGIC
 -- MAGIC Queremos agregar o número de vezes que cada usuário executou um evento específico, especificado na coluna **`event_name`**. Para fazer isso, agrupe por **`user_id`** e faça o pivot em **`event_name`** para fornecer a contagem de todos os tipos de eventos na coluna, resultando no schema abaixo. Observe que **`user_id`** está renomeado para **`user`**.
--- MAGIC 
--- MAGIC 
+-- MAGIC
+-- MAGIC
 -- MAGIC | field | type | 
 -- MAGIC | --- | --- | 
 -- MAGIC | user | STRING |

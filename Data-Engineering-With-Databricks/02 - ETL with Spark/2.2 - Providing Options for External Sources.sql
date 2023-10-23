@@ -186,7 +186,7 @@ SELECT COUNT(*) FROM sales_csv
 -- MAGIC   
 -- MAGIC No código abaixo, nós vamos conectar com o SQLite.
 -- MAGIC   
--- MAGIC **Observação:** SQLite usa um arquivo local para armazenar um database e não requer uma posta, username ou senha.
+-- MAGIC **Observação:** SQLite usa um arquivo local para armazenar um database e não requer uma porta, username ou senha.
 -- MAGIC   
 -- MAGIC **Atenção:** A configuração de backend do servidor JDBC assume que você está executando este notebook em um cluster de nó único (cluster single node)
 -- MAGIC

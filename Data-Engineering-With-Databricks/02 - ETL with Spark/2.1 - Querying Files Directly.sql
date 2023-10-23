@@ -7,7 +7,7 @@
 -- MAGIC
 -- MAGIC ###Objetivos:
 -- MAGIC - Usar Spark SQL para consultar arquivos de dados diretamente
--- MAGIC - Visualizações de camada (views) e CTEs para facilitar a referência de arquivos de dados
+-- MAGIC - Visualizações de camada (views) e CTEs (common table expression) para facilitar a referência de arquivos de dados
 -- MAGIC - Aproveitar métodos **`text`** e **`binaryFile`** para revisar o conteúdo dos arquivos brutos
 -- MAGIC
 
