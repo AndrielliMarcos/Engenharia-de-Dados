@@ -1,1 +1,1 @@
-Este repositório tem como objetivo registrar todos os estudos de engenharia de dados.
+Este repositório tem como objetivo registrar todos os estudos relativos à engenharia de dados.
