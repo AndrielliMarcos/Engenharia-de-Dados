@@ -1,3 +1,5 @@
+## USANDO A EXPRESSÃO WITH
+# Ao usar a expressão with, o método close() é executadop automaticamente
 # Definindo o caminho do arquivo
 # caminho_arquivo = r'C:/Users/BlueShift/OneDrive/Documentos/Estudos_Eng_Dados/Engenharia-de-Dados/DSA_Python_para_analises_de_dados/Manipulacao_de_arquivos/arquivos/arquivo1.txt'
 
