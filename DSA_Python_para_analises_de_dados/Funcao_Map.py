@@ -1,4 +1,4 @@
-# A função Map() em Python é uma função que aplica uma determinada função a cada elementop
+# A função Map() em Python é uma função que aplica uma determinada função a cada elemento
 # de uma estrutura de dados iterável (como uma lista, tupla ou outro objeto iterável).
 
 # Função para retornar um número ao quadrado

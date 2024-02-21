@@ -1,0 +1,32 @@
+** Classes **
+Em POO, uma classe é uma estrutura que descreve um objeto, especificando os atributos e comportamentos que o objeto deve ter.
+Uma classe é uma epécie de modelo que defone as características e ações que um objeto deve possuir.
+
+As classe são usadas para criar objetos, que são instâncias da classe. Cada objeto criado a partir
+da mesma classe terá os memsos atributos e comportamentos.
+
+Para criar uma classe em Python, utiliza-se a palavra reservada class.
+
+O nome da classe segue a mesma conversão de nomes para criação de funções e variáveis em Python, mesma
+normalmente se usa a primeira letra maiúscula em cada palavra no nome da classe.
+
+** Método Cosntrutor**
+É um tipo especial de método que é CHAMADO AUTOMATICAMENTE QUANDO UM OBJETO DE UMA CLASSE É CRIADO.
+Ele DEFINE OS VALORES INICIAIS DE SEUS ATRIBUTOS.
+Segue um exemplo:
+
+class Pessoa:
+    # método construtor
+    def __init__(self, nome, idade):
+        self.nome = nome
+        self.idade = idade
+
+# Criar um objeto da classe Pessoa utilizando o método construtor
+pessoa1 = Pessoa("João", 30)
+
+# Acessar os atributos do objeto
+print("Nome:", pessoa1.nome)
+print("Idade:", pessoa1.idade)
+
+Quando um objeto pessoa1 é criado, o método construtor é automaticamente chamado e inicializa 
+os atributos nome e idade com os valores passados como argumentos.
