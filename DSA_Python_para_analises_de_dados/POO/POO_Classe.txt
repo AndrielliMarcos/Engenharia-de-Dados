@@ -46,3 +46,29 @@ print("Idade:", pessoa1.idade)
 Quando um objeto pessoa1 é criado, o método construtor é automaticamente chamado e inicializa 
 os atributos nome e idade com os valores passados como argumentos.
 
+** Herança **
+Em POO, a herança é um conceito que permite criar novas classes a partir de outras classes existentes,
+aproveitando os atributos e métodos da classe original e adicionando novos atributos e métodos específicos.
+
+A classe original é chamada de classe mãe ou superclasse e a nova classe criada é chamada de classe filha ou subclasse.
+
+A herança é uma técnica importante em POO porque permite reutilizar o código de maneira eficaz.
+Em vez de criar uma nova classe do zero, a subclasse pode herdar todos os atributos e métodos da superclasse eficaz e 
+adicionar apenas o necessário. Dessa forma, a subclasse pode se concentrar em fornecer funcionalidades
+adicionais sem precisar se preocupar com as características básicas da classe.
+
+Na herança, uma subclasse pode herdar os atributos e métodos da superclasse e substituí-los
+ou estendê-los conforme necessário. Por exemplo, uma subclasse pode ter um método com o mesmo nome
+de um método da superclasse, mas com um comportamento diferente.
+
+** Polimorfismo **
+Permite que onjetos de diferentes classes possam ser tratados de forma uniforme. Isso significa
+que o objeto pode ser tratado como se fosse um objeto de uma superclasse, mesmo que ele seja de uma subclasse.
+
+Mais especificamente, o polimorfismo se refere à habilidade de um objeto responder de diferentes
+formas a uma mesma mensagem. Isso é possível porque as subclasses podem implementar métodos com o mesmo
+nome que os métodos da superclasse, mas com comportamentos diferentes.
+
+Com o polimorfismo, os mesmos atributos e métodos podem ser utilizados em objetos distintos, com
+implementações lógicas diferentes.
+
