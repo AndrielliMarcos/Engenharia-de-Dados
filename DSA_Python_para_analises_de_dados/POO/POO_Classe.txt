@@ -10,7 +10,22 @@ Para criar uma classe em Python, utiliza-se a palavra reservada class.
 O nome da classe segue a mesma conversão de nomes para criação de funções e variáveis em Python, mesma
 normalmente se usa a primeira letra maiúscula em cada palavra no nome da classe.
 
-** Método Cosntrutor**
+** Métodos **
+Em Python, os métodos de classes são funções definidas dentro de uma classe, que realizam operações
+específicas em objetos criados a partir dessa classe. Os métodos de classe são usados para implementar
+o comportamento dos objetos que pertencem a essa classe.
+
+Assim como as funções em Python, os métodos de classes podem, receber argumentos e retornar calores.
+No entanto, diferentemente das funções normais, os métodos da classe sempre incluem o parâmetro self
+como o primeiro argumento, que é usado para se referir ao objeto atual da classe.
+
+O método __init__ é um método especial que é chamado quando um objeto é criado a partir da classe.
+Este método é usado para inicializar os atributos do objeto. Outros métodos podem ser definidos para
+executar tarefas específicas em um objeto, como calcular valores, realizar operações de entrada e saída,
+ou alterar o estado do objeto.
+
+
+** Método Construtor**
 É um tipo especial de método que é CHAMADO AUTOMATICAMENTE QUANDO UM OBJETO DE UMA CLASSE É CRIADO.
 Ele DEFINE OS VALORES INICIAIS DE SEUS ATRIBUTOS.
 Segue um exemplo:
@@ -30,3 +45,4 @@ print("Idade:", pessoa1.idade)
 
 Quando um objeto pessoa1 é criado, o método construtor é automaticamente chamado e inicializa 
 os atributos nome e idade com os valores passados como argumentos.
+
